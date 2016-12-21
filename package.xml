@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package>
+	<name>assembly_projection_mapping_teaching</name>
+	<version>1.0.0</version>
+	<description>Package that provides an immersive projection mapping system for interactively teaching assembly operations.</description>
+	<author email="carloscosta.cmcc@gmail.com">Carlos Miguel Correia da Costa</author>
+	<maintainer email="carloscosta.cmcc@gmail.com">Carlos Miguel Correia da Costa</maintainer>
+	<license>BSD</license>
+
+
+	<buildtool_depend>catkin</buildtool_depend>
+
+
+	<!-- ################################################################## -->
+	<!-- Build dependencies -->
+	<!-- ################################################################## -->
+
+	<build_depend>roscpp</build_depend>
+	<build_depend>rosconsole</build_depend>
+
+
+	<!-- ################################################################## -->
+	<!-- Run dependencies -->
+	<!-- ################################################################## -->
+
+	<run_depend>roscpp</run_depend>
+	<run_depend>rosconsole</run_depend>
+
+
+	<export>
+		<rosdoc config="rosdoc.yaml" />
+	</export>
+</package>
