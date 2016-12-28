@@ -1,0 +1,23 @@
+material Gazebo/BlueWireframe
+{
+  technique
+  {
+    pass ambient
+    {
+      scene_blend alpha_blend
+      ambient 0.015 0.101 0.157
+      diffuse 0.015 0.101 0.157
+      specular 0.1 0.1 0.1 1 1
+      polygon_mode solid
+    }
+
+    pass ambient
+    {
+      scene_blend alpha_blend
+      ambient 0.086 0.83 0.85
+      diffuse 0.086 0.83 0.85
+      specular 0.1 0.1 0.1 1 1
+      polygon_mode wireframe
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<arg name="publish_projector_tunning_tf" default="true" />
+	<arg name="publish_calibration_pattern_tf" default="false" />
+	<arg name="publish_chessboard" default="true" />
+	<arg name="publish_box_tf" default="false" />
+
+
+	<!-- ===== calibrations ===== -->
+
+	<!-- change origin -->
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_map_top_left_z_down" args="0.30735 0 0 0 3.14159265359 0 map chessboard 10" />
+
+	<!-- chessboard corner detection -->
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_chessboard" args="0.3166770304536228 0.3473574034076927 -0.7197966412682155 0.1671494599054009 -0.0084010322845672 0.0413814207822534 0.9850269329941840 chessboard kinect2_rgb_optical_frame 10" />
+
+	<!-- change from image axis to ros axis convenction -->
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_camera_axis" args="0 0 0 1.57079632679 -1.57079632679 0 kinect2_rgb_optical_frame camera_link 10" />
+
+	<!-- camera-projector calibration -->
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_camera_projector" args="-0.1966242456646409 -0.4423555124654083 0.09249922595842414 -0.014703895954936468 -0.16598159256713627 -0.9851475790229891 0.041450620233123195 kinect2_rgb_optical_frame projector 10" />
+
+	<!-- change from image axis to ros axis convenction -->
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_projector_axis" args="0 0 0 1.57079632679 -1.57079632679 0 projector projector_fixed_axis 10" />
+
+	<!-- camera-projector calibration tunning -->
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_projector_tunning" args="-0.03 -0.05 0.027 0.017 0.0005 -0.167 projector_fixed_axis projector_link 10" if="$(arg publish_projector_tunning_tf)"/>
+
+	<node pkg="chessboard_publisher" type="publisher" name="chessboard_publisher" output="screen" if="$(arg publish_chessboard)">
+		<param name="name" value="chessboard" />
+		<param name="grid_x_size" value="11" />
+		<param name="grid_y_size" value="8" />
+		<param name="rect_x_size" value="0.03415" />
+		<param name="rect_y_size" value="0.03415" />
+	</node>
+
+
+	<!-- ===== scene objects ===== -->
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_board" args="0.153675 0.10245 0.0 0 0 0 map calibration_pattern_link 10" if="$(arg publish_calibration_pattern_tf)"/>
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_box" args="0.045 0.03 0.015 0 0 0 map box_link 10" if="$(arg publish_box_tf)"/>
+</launch>

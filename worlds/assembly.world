@@ -1,0 +1,372 @@
+<sdf version='1.6'>
+	<world name='default'>
+		<model name="box">
+			<static>1</static>
+			<pose>0.045 0.03 0.015 0 0 0</pose>
+			<link name="box_link">
+				<visual name="visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<box>
+							<size>0.09 0.06 0.03</size>
+						</box>
+					</geometry>
+					<material>
+						<script>
+							<uri>file://materials/wireframe.material</uri>
+							<name>Gazebo/BlueWireframe</name>
+						</script>
+					</material>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+		
+		<model name="assembly_instructions_image">
+			<static>1</static>
+			<pose>-0.075 0.257 0 0 0 0</pose>
+			<link name="assembly_instructions_image_link">
+				<visual name="assembly_instructions_image_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.16 0.09</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="assembly_instructions_image_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>assembly_instructions_image</robotNamespace>
+						<topicImagePath>set_image_path</topicImagePath>
+						<height>720</height>
+						<width>1280</width>
+						<defaultImagePath>file://images/moon.jpg</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="assembly_instructions_image_overlay">
+			<static>1</static>
+			<pose>-0.0766 0.259 -0.001 0 0 0</pose>
+			<link name="assembly_instructions_image_overlay_link">
+				<visual name="assembly_instructions_image_overlay_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.202 0.128</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="assembly_instructions_image_overlay_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>assembly_instructions_image_overlay</robotNamespace>
+						<topicImagePath>set_image_path</topicImagePath>
+						<height>720</height>
+						<width>1280</width>
+						<defaultVideoPath>file://videos/overlay.mp4</defaultVideoPath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="assembly_instructions_video">
+			<static>1</static>
+			<pose>-0.075 0.135 0 0 0 0</pose>
+			<link name="assembly_instructions_video_link">
+				<visual name="assembly_instructions_video_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.16 0.09</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="assembly_instructions_video_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>assembly_instructions_video</robotNamespace>
+						<topicVideoPath>set_video_path</topicVideoPath>
+						<videoFps>0</videoFps>
+						<loopVideo>true</loopVideo>
+						<height>720</height>
+						<width>1280</width>
+						<defaultVideoPath>file://videos/overlay.mp4</defaultVideoPath>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="assembly_instructions_video_overlay">
+			<static>1</static>
+			<pose>-0.0766 0.137 -0.001 0 0 0</pose>
+			<link name="assembly_instructions_video_overlay_link">
+				<visual name="assembly_instructions_video_overlay_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.202 0.128</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="assembly_instructions_video_overlay_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>assembly_instructions_video_overlay</robotNamespace>
+						<topicImagePath>set_image_path</topicImagePath>
+						<height>720</height>
+						<width>1280</width>
+						<defaultVideoPath>file://videos/overlay.mp4</defaultVideoPath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name='projection_area'>
+			<static>1</static>
+			<pose>-0.175 -0.074 0 0 0 0</pose>
+			<model name='top'>
+				<pose>0.3525 0.395 0 0 0 0</pose>
+				<link name='link'>
+					<visual name='visual'>
+						<geometry>
+							<plane>
+								<size>0.705 0.002</size>
+							</plane>
+						</geometry>
+						<material>
+							<script>
+								<name>Gazebo/Green</name>
+								<uri>__default__</uri>
+							</script>
+						</material>
+					</visual>
+					<gravity>0</gravity>
+				</link>
+			</model>
+			<model name='bottom'>
+				<pose>0.3525 0 0 0 0 0</pose>
+				<link name='link'>
+					<visual name='visual'>
+						<geometry>
+							<plane>
+								<size>0.705 0.002</size>
+							</plane>
+						</geometry>
+						<material>
+							<script>
+								<name>Gazebo/Green</name>
+								<uri>__default__</uri>
+							</script>
+						</material>
+					</visual>
+					<gravity>0</gravity>
+				</link>
+			</model>
+			<model name='left'>
+				<pose>0 0.198 0 0 0 0</pose>
+				<link name='link'>
+					<visual name='visual'>
+						<geometry>
+							<plane>
+								<size>0.002 0.396</size>
+							</plane>
+						</geometry>
+						<material>
+							<script>
+								<name>Gazebo/Green</name>
+								<uri>__default__</uri>
+							</script>
+						</material>
+					</visual>
+					<gravity>0</gravity>
+				</link>
+			</model>
+			<model name='right'>
+				<pose>0.705 0.198 0 0 0 0</pose>
+				<link name='link'>
+					<visual name='visual'>
+						<geometry>
+							<plane>
+								<size>0.002 0.396</size>
+							</plane>
+						</geometry>
+						<material>
+							<script>
+								<name>Gazebo/Green</name>
+								<uri>__default__</uri>
+							</script>
+						</material>
+					</visual>
+					<gravity>0</gravity>
+				</link>
+			</model>
+		</model>
+
+		<model name="calibration_pattern">
+			<static>1</static>
+			<pose>0.153675 0.10245 -0.001 0 0 0</pose>
+			<link name="calibration_pattern_link">
+				<visual name="visual">
+					<transparency>0.5</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<box>
+							<size>0.37565 0.2732 0.001</size>
+						</box>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://calibration_pattern/materials/scripts</uri>
+							<uri>model://calibration_pattern/materials/textures</uri>
+							<name>calibration_pattern</name>
+						</script>
+					</material>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name='camera_projection_mapping'>
+			<static>1</static>
+			<link name='projector_link'>
+				<visual name='projector_link_visual'>
+					<geometry>
+						<box>
+							<size>0.0025 0.05 0.03</size>
+						</box>
+					</geometry>
+					<material>
+						<script>
+							<name>Gazebo/Wood</name>
+							<uri>__default__</uri>
+						</script>
+					</material>
+				</visual>
+				<gravity>0</gravity>
+				<self_collide>0</self_collide>
+				<sensor name='virtual_camera' type='camera'>
+					<camera name='projector_head'>
+						<horizontal_fov>1.15</horizontal_fov>
+						<image>
+							<width>1920</width>
+							<height>1080</height>
+							<format>R8G8B8</format>
+						</image>
+						<clip>
+							<near>0.1</near>
+							<far>10.0</far>
+						</clip>
+						<noise>
+							<type>gaussian</type>
+							<mean>0</mean>
+							<stddev>0</stddev>
+						</noise>
+						<!--<save enabled="0">-->
+							<!--<path>/home/carloscosta/catkin_ws/src/gazebo_projection_mapping/frames/</path>-->
+						<!--</save>-->
+
+						<!-- <distortion>
+							<k1>-0.035761454439344531</k1>
+							<k2>0.27221522456036840e</k2>
+							<p1>-0.007235085650303857</p1>
+							<p2>-0.0029871640470490609</p2>
+							<k3>0.0</k3>
+							<center>0.5 0.5</center>
+						</distortion> -->
+
+						<lens>
+							<intrinsics>
+								<fx>2211.53735</fx>
+								<fy>2222.374786</fy>
+								<cx>1025.695628</cx>
+								<cy>-58.450707</cy>
+								<s>0.0</s>
+							</intrinsics>
+						</lens>
+					</camera>
+					<visualize>0</visualize>
+					<plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+						<alwaysOn>true</alwaysOn>
+						<updateRate>10</updateRate>
+						<cameraName>virtual_camera</cameraName>
+						<imageTopicName>image_raw</imageTopicName>
+						<cameraInfoTopicName>camera_info</cameraInfoTopicName>
+						<frameName>camera_link</frameName>
+
+						<focalLengthX>2211.53735</focalLengthX>
+						<focalLengthY>2222.374786</focalLengthY>
+						<hackBaseline>0</hackBaseline>
+						<CxPrime>1025.695628</CxPrime>
+						<Cx>1025.695628</Cx>
+						<Cy>-58.450707</Cy>
+
+						<distortionK1>-0.001</distortionK1>
+						<distortionK2>-0.0025</distortionK2>
+						<distortionT1>0.001</distortionT1>
+						<distortionT2>0.0025</distortionT2>
+						<distortionK3>0</distortionK3>
+
+						<robotNamespace>/</robotNamespace>
+					</plugin>
+				</sensor>
+			</link>
+			<static>1</static>
+		</model>
+
+
+		<physics type='ode'>
+			<max_step_size>0.1</max_step_size>
+			<real_time_factor>1</real_time_factor>
+			<real_time_update_rate>10</real_time_update_rate>
+			<max_contacts>0</max_contacts>
+			<ode>
+				<solver>
+					<type>quick</type>
+					<min_step_size>0.1</min_step_size>
+					<iters>1</iters>
+				</solver>
+			</ode>
+		</physics>
+
+		<scene>
+			<ambient>1 1 1 1</ambient>
+			<background>0 0 0 1</background>
+			<shadows>1</shadows>
+		</scene>
+
+
+		<gui fullscreen='0'>
+			<camera name='user_camera'>
+				<pose>0 0 1 0 1.5707 0</pose>
+				<view_controller>orbit</view_controller>
+			</camera>
+		</gui>
+	</world>
+</sdf>
