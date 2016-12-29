@@ -23,6 +23,8 @@
 	<!-- Run dependencies -->
 	<!-- ################################################################## -->
 
+	<run_depend>gazebo_projection_mapping</run_depend>
+	<run_depend>gazebo_ros_pkgs</run_depend>
 	<run_depend>roscpp</run_depend>
 	<run_depend>rosconsole</run_depend>
 

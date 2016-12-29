@@ -18,21 +18,28 @@
 							<name>Gazebo/BlueWireframe</name>
 						</script>
 					</material>
+					<plugin name="blink" filename="libBlinkVisualPlugin.so">
+						<color_a>0.086 0.83 0.85 0.75</color_a>
+						<color_b>0.015 0.101 0.157 0.5</color_b>
+						<period>3</period>
+						<use_wall_time>true</use_wall_time>
+						<change_only_transparency>false</change_only_transparency>
+					</plugin>
 				</visual>
 				<gravity>0</gravity>
 			</link>
 		</model>
 		
-		<model name="assembly_instructions_image">
+		<model name="assembly_instructions_frame">
 			<static>1</static>
-			<pose>-0.075 0.257 0 0 0 0</pose>
-			<link name="assembly_instructions_image_link">
-				<visual name="assembly_instructions_image_visual">
+			<pose>-0.067 0.181 0 0 0 0</pose>
+			<link name="assembly_instructions_frame_link">
+				<visual name="assembly_instructions_frame_visual">
 					<transparency>0</transparency>
 					<cast_shadows>false</cast_shadows>
 					<geometry>
 						<plane>
-							<size>0.16 0.09</size>
+							<size>0.206 0.272</size>
 						</plane>
 					</geometry>
 					<material>
@@ -42,11 +49,11 @@
 						</script>
 					</material>
 					<plugin name="assembly_instructions_image_plugin" filename="libgazebo_ros_video.so">
-						<robotNamespace>assembly_instructions_image</robotNamespace>
+						<robotNamespace>assembly_instructions_frame</robotNamespace>
 						<topicImagePath>set_image_path</topicImagePath>
-						<height>720</height>
-						<width>1280</width>
-						<defaultImagePath>file://images/moon.jpg</defaultImagePath>
+						<height>1647</height>
+						<width>2173</width>
+						<defaultImagePath>file://images/assembly_frame.png</defaultImagePath>
 						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
 					</plugin>
 				</visual>
@@ -54,16 +61,16 @@
 			</link>
 		</model>
 
-		<model name="assembly_instructions_image_overlay">
+		<model name="assembly_instructions_text">
 			<static>1</static>
-			<pose>-0.0766 0.259 -0.001 0 0 0</pose>
-			<link name="assembly_instructions_image_overlay_link">
-				<visual name="assembly_instructions_image_overlay_visual">
+			<pose>-0.0670 0.233 0.001 0 0 0</pose>
+			<link name="assembly_instructions_text_link">
+				<visual name="assembly_instructions_text_visual">
 					<transparency>0</transparency>
 					<cast_shadows>false</cast_shadows>
 					<geometry>
 						<plane>
-							<size>0.202 0.128</size>
+							<size>0.164 0.095</size>
 						</plane>
 					</geometry>
 					<material>
@@ -72,12 +79,12 @@
 							<name>Gazebo/Black</name>
 						</script>
 					</material>
-					<plugin name="assembly_instructions_image_overlay_plugin" filename="libgazebo_ros_video.so">
-						<robotNamespace>assembly_instructions_image_overlay</robotNamespace>
+					<plugin name="assembly_instructions_text_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>assembly_instructions_text</robotNamespace>
 						<topicImagePath>set_image_path</topicImagePath>
-						<height>720</height>
-						<width>1280</width>
-						<defaultVideoPath>file://videos/overlay.mp4</defaultVideoPath>
+						<height>1647</height>
+						<width>2173</width>
+						<defaultImagePath>file://images/assembly_text.png</defaultImagePath>
 						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
 					</plugin>
 				</visual>
@@ -87,7 +94,7 @@
 
 		<model name="assembly_instructions_video">
 			<static>1</static>
-			<pose>-0.075 0.135 0 0 0 0</pose>
+			<pose>-0.0669 0.1286 0.0005 0 0 0</pose>
 			<link name="assembly_instructions_video_link">
 				<visual name="assembly_instructions_video_visual">
 					<transparency>0</transparency>
@@ -108,40 +115,10 @@
 						<topicVideoPath>set_video_path</topicVideoPath>
 						<videoFps>0</videoFps>
 						<loopVideo>true</loopVideo>
+						<useWallRate>true</useWallRate>
 						<height>720</height>
 						<width>1280</width>
-						<defaultVideoPath>file://videos/overlay.mp4</defaultVideoPath>
-					</plugin>
-				</visual>
-				<gravity>0</gravity>
-			</link>
-		</model>
-
-		<model name="assembly_instructions_video_overlay">
-			<static>1</static>
-			<pose>-0.0766 0.137 -0.001 0 0 0</pose>
-			<link name="assembly_instructions_video_overlay_link">
-				<visual name="assembly_instructions_video_overlay_visual">
-					<transparency>0</transparency>
-					<cast_shadows>false</cast_shadows>
-					<geometry>
-						<plane>
-							<size>0.202 0.128</size>
-						</plane>
-					</geometry>
-					<material>
-						<script>
-							<uri>__default__</uri>
-							<name>Gazebo/Black</name>
-						</script>
-					</material>
-					<plugin name="assembly_instructions_video_overlay_plugin" filename="libgazebo_ros_video.so">
-						<robotNamespace>assembly_instructions_video_overlay</robotNamespace>
-						<topicImagePath>set_image_path</topicImagePath>
-						<height>720</height>
-						<width>1280</width>
-						<defaultVideoPath>file://videos/overlay.mp4</defaultVideoPath>
-						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+						<defaultVideoPath>file://videos/mars.mkv</defaultVideoPath>
 					</plugin>
 				</visual>
 				<gravity>0</gravity>
