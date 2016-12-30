@@ -1,8 +1,8 @@
-<sdf version='1.6'>
+<sdf version='1.5'>
 	<world name='default'>
 		<model name="box">
 			<static>1</static>
-			<pose>0.045 0.03 0.015 0 0 0</pose>
+			<pose>0.145 0.03 0.015 0 0 0</pose>
 			<link name="box_link">
 				<visual name="visual">
 					<transparency>0</transparency>
@@ -29,12 +29,12 @@
 				<gravity>0</gravity>
 			</link>
 		</model>
-		
-		<model name="assembly_instructions_frame">
+
+		<model name="frame">
 			<static>1</static>
 			<pose>-0.067 0.181 0 0 0 0</pose>
-			<link name="assembly_instructions_frame_link">
-				<visual name="assembly_instructions_frame_visual">
+			<link name="frame_link">
+				<visual name="frame_visual">
 					<transparency>0</transparency>
 					<cast_shadows>false</cast_shadows>
 					<geometry>
@@ -48,9 +48,8 @@
 							<name>Gazebo/Black</name>
 						</script>
 					</material>
-					<plugin name="assembly_instructions_image_plugin" filename="libgazebo_ros_video.so">
-						<robotNamespace>assembly_instructions_frame</robotNamespace>
-						<topicImagePath>set_image_path</topicImagePath>
+					<plugin name="frame_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>frame</robotNamespace>
 						<height>1647</height>
 						<width>2173</width>
 						<defaultImagePath>file://images/assembly_frame.png</defaultImagePath>
@@ -61,11 +60,11 @@
 			</link>
 		</model>
 
-		<model name="assembly_instructions_text">
+		<model name="text">
 			<static>1</static>
 			<pose>-0.0670 0.233 0.001 0 0 0</pose>
-			<link name="assembly_instructions_text_link">
-				<visual name="assembly_instructions_text_visual">
+			<link name="text_link">
+				<visual name="text_visual">
 					<transparency>0</transparency>
 					<cast_shadows>false</cast_shadows>
 					<geometry>
@@ -79,9 +78,8 @@
 							<name>Gazebo/Black</name>
 						</script>
 					</material>
-					<plugin name="assembly_instructions_text_plugin" filename="libgazebo_ros_video.so">
-						<robotNamespace>assembly_instructions_text</robotNamespace>
-						<topicImagePath>set_image_path</topicImagePath>
+					<plugin name="text_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>text</robotNamespace>
 						<height>1647</height>
 						<width>2173</width>
 						<defaultImagePath>file://images/assembly_text.png</defaultImagePath>
@@ -92,11 +90,11 @@
 			</link>
 		</model>
 
-		<model name="assembly_instructions_video">
+		<model name="video">
 			<static>1</static>
 			<pose>-0.0669 0.1286 0.0005 0 0 0</pose>
-			<link name="assembly_instructions_video_link">
-				<visual name="assembly_instructions_video_visual">
+			<link name="video_link">
+				<visual name="video_visual">
 					<transparency>0</transparency>
 					<cast_shadows>false</cast_shadows>
 					<geometry>
@@ -110,15 +108,251 @@
 							<name>Gazebo/Black</name>
 						</script>
 					</material>
-					<plugin name="assembly_instructions_video_plugin" filename="libgazebo_ros_video.so">
-						<robotNamespace>assembly_instructions_video</robotNamespace>
-						<topicVideoPath>set_video_path</topicVideoPath>
-						<videoFps>0</videoFps>
-						<loopVideo>true</loopVideo>
-						<useWallRate>true</useWallRate>
+					<plugin name="video_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>video</robotNamespace>
 						<height>720</height>
 						<width>1280</width>
 						<defaultVideoPath>file://videos/mars.mkv</defaultVideoPath>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="first_button">
+			<static>1</static>
+			<pose>-0.123 0.0675 0.0005 0 0 0</pose>
+			<link name="first_button_link">
+				<visual name="first_button_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.013 0.013</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="first_button_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>first_button</robotNamespace>
+						<height>640</height>
+						<width>640</width>
+						<defaultImagePath>file://images/buttons/first_selected.png</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="previous_button">
+			<static>1</static>
+			<pose>-0.108 0.0675 0.0005 0 0 0</pose>
+			<link name="previous_button_link">
+				<visual name="previous_button_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.013 0.013</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="first_button_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>previous_button</robotNamespace>
+						<height>640</height>
+						<width>640</width>
+						<defaultImagePath>file://images/buttons/previous_selected.png</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="next_button">
+			<static>1</static>
+			<pose>-0.0255 0.0675 0.0005 0 0 0</pose>
+			<link name="next_button_link">
+				<visual name="next_button_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.013 0.013</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="next_button_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>next_button</robotNamespace>
+						<height>640</height>
+						<width>640</width>
+						<defaultImagePath>file://images/buttons/next_selected.png</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="last_button">
+			<static>1</static>
+			<pose>-0.0105 0.0675 0.0005 0 0 0</pose>
+			<link name="last_button_link">
+				<visual name="last_button_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.013 0.013</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="last_button_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>last_button</robotNamespace>
+						<height>640</height>
+						<width>640</width>
+						<defaultImagePath>file://images/buttons/last_selected.png</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+		
+		<model name="first_number">
+			<static>1</static>
+			<pose>-0.0705 0.0675 0.0005 0 0 0</pose>
+			<link name="first_number_link">
+				<visual name="first_number_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.00896 0.0077</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="first_number_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>first_number</robotNamespace>
+						<height>55</height>
+						<width>64</width>
+						<defaultImagePath>file://images/numbers/0.png</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="second_number">
+			<static>1</static>
+			<pose>-0.062 0.0675 0.0005 0 0 0</pose>
+			<link name="second_number_link">
+				<visual name="second_number_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.00896 0.0077</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="second_number_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>second_number</robotNamespace>
+						<height>55</height>
+						<width>64</width>
+						<defaultImagePath>file://images/numbers/0.png</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="third_number">
+			<static>1</static>
+			<pose>-0.0475 0.0675 0.0005 0 0 0</pose>
+			<link name="third_number_link">
+				<visual name="third_number_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.00896 0.0077</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="third_number_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>third_number</robotNamespace>
+						<height>55</height>
+						<width>64</width>
+						<defaultImagePath>file://images/numbers/0.png</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
+					</plugin>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name="fourth_number">
+			<static>1</static>
+			<pose>-0.0391 0.0675 0.0005 0 0 0</pose>
+			<link name="fourth_number_link">
+				<visual name="fourth_number_visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<plane>
+							<size>0.00896 0.0077</size>
+						</plane>
+					</geometry>
+					<material>
+						<script>
+							<uri>__default__</uri>
+							<name>Gazebo/Black</name>
+						</script>
+					</material>
+					<plugin name="fourth_number_plugin" filename="libgazebo_ros_video.so">
+						<robotNamespace>fourth_number</robotNamespace>
+						<height>55</height>
+						<width>64</width>
+						<defaultImagePath>file://images/numbers/0.png</defaultImagePath>
+						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
 					</plugin>
 				</visual>
 				<gravity>0</gravity>
@@ -211,7 +445,7 @@
 			<pose>0.153675 0.10245 -0.001 0 0 0</pose>
 			<link name="calibration_pattern_link">
 				<visual name="visual">
-					<transparency>0.5</transparency>
+					<transparency>1</transparency>
 					<cast_shadows>false</cast_shadows>
 					<geometry>
 						<box>
@@ -341,7 +575,7 @@
 
 		<gui fullscreen='0'>
 			<camera name='user_camera'>
-				<pose>0 0 1 0 1.5707 0</pose>
+				<pose>0.1 0.1 1 0 1.5707 1.5707</pose>
 				<view_controller>orbit</view_controller>
 			</camera>
 		</gui>
