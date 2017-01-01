@@ -445,7 +445,7 @@
 			<pose>0.153675 0.10245 -0.001 0 0 0</pose>
 			<link name="calibration_pattern_link">
 				<visual name="visual">
-					<transparency>1</transparency>
+					<transparency>0</transparency>
 					<cast_shadows>false</cast_shadows>
 					<geometry>
 						<box>
