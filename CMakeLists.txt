@@ -2,13 +2,19 @@ cmake_minimum_required(VERSION 2.8.3)
 project(assembly_projection_mapping_teaching)
 
 
-
 #######################################################################################################################
 ## packages
 #######################################################################################################################
 
-find_package(catkin REQUIRED COMPONENTS ${${PROJECT_NAME}_CATKIN_COMPONENTS})
+set(${PROJECT_NAME}_CATKIN_COMPONENTS
+    rosconsole
+    roscpp
+    rostime
+    std_msgs
+    xmlrpcpp
+)
 
+find_package(catkin REQUIRED COMPONENTS ${${PROJECT_NAME}_CATKIN_COMPONENTS})
 
 
 
@@ -18,9 +24,9 @@ find_package(catkin REQUIRED COMPONENTS ${${PROJECT_NAME}_CATKIN_COMPONENTS})
 
 catkin_package(
     INCLUDE_DIRS
-#        include
+        include
     LIBRARIES
-#        package_template
+        assembly_manager
     CATKIN_DEPENDS
         ${${PROJECT_NAME}_CATKIN_COMPONENTS}
     DEPENDS
@@ -42,42 +48,39 @@ include_directories(
 )
 
 
-
 #==============================================================================
 # libraries
 #==============================================================================
 
-#add_library(package_template
-#    src/package_template.cpp
-#)
-
+add_library(assembly_manager
+    src/assembly_manager.cpp
+)
 
 
 #==============================================================================
 # executables
 #==============================================================================
 
-#add_executable(package_template_node
-#    src/package_template_node.cpp
-#)
-
+add_executable(assembly_manager_node
+    src/assembly_manager_node.cpp
+)
 
 
 #==============================================================================
 # library link
 #==============================================================================
 
-#target_link_libraries(package_template
-#    ${catkin_LIBRARIES}
-#)
-
+target_link_libraries(assembly_manager
+    ${catkin_LIBRARIES}
+)
 
 
 #==============================================================================
 # executables link
 #==============================================================================
 
-#target_link_libraries(package_template_node
-#    package_template
-#    ${catkin_LIBRARIES}
-#)
+target_link_libraries(assembly_manager_node
+    assembly_manager
+    ${catkin_LIBRARIES}
+)
+

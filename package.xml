@@ -15,8 +15,11 @@
 	<!-- Build dependencies -->
 	<!-- ################################################################## -->
 
-	<build_depend>roscpp</build_depend>
 	<build_depend>rosconsole</build_depend>
+	<build_depend>roscpp</build_depend>
+	<build_depend>rostime</build_depend>
+	<build_depend>std_msgs</build_depend>
+	<build_depend>xmlrpcpp</build_depend>
 
 
 	<!-- ################################################################## -->
@@ -25,8 +28,11 @@
 
 	<run_depend>gazebo_projection_mapping</run_depend>
 	<run_depend>gazebo_ros_pkgs</run_depend>
-	<run_depend>roscpp</run_depend>
 	<run_depend>rosconsole</run_depend>
+	<run_depend>roscpp</run_depend>
+	<run_depend>rostime</run_depend>
+	<run_depend>std_msgs</run_depend>
+	<run_depend>xmlrpcpp</run_depend>
 
 
 	<export>

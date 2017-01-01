@@ -17,13 +17,13 @@
 	<node pkg="gazebo_projection_mapping" type="gpm_tf_to_link_state_node" name="gpm_tf_to_link_state_node_calibration_pattern">
 		<param name="gazebo_link_name" type="str" value="calibration_pattern_link" />
 		<param name="tf_source_frame" type="str" value="calibration_pattern_link" />
-		<param name="publish_rate" type="double" value="10"/>
+		<param name="publish_rate" type="double" value="1"/>
 	</node>
 
 	<node pkg="gazebo_projection_mapping" type="gpm_tf_to_link_state_node" name="gpm_tf_to_link_state_node_box">
 		<param name="gazebo_link_name" type="str" value="box_link" />
 		<param name="tf_source_frame" type="str" value="box_link" />
-		<param name="publish_rate" type="double" value="10"/>
+		<param name="publish_rate" type="double" value="1"/>
 	</node>
 
 	<include file="$(find assembly_projection_mapping_teaching)/launch/assembly_tfs.launch" if="$(arg publish_tfs)" />

@@ -112,7 +112,7 @@
 						<robotNamespace>video</robotNamespace>
 						<height>720</height>
 						<width>1280</width>
-						<defaultVideoPath>file://videos/mars.mkv</defaultVideoPath>
+						<defaultVideoPath>file://videos/mass_effect.mp4</defaultVideoPath>
 					</plugin>
 				</visual>
 				<gravity>0</gravity>
@@ -141,7 +141,7 @@
 						<robotNamespace>first_button</robotNamespace>
 						<height>640</height>
 						<width>640</width>
-						<defaultImagePath>file://images/buttons/first_selected.png</defaultImagePath>
+						<defaultImagePath>file://images/buttons/first.png</defaultImagePath>
 						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
 					</plugin>
 				</visual>
@@ -171,7 +171,7 @@
 						<robotNamespace>previous_button</robotNamespace>
 						<height>640</height>
 						<width>640</width>
-						<defaultImagePath>file://images/buttons/previous_selected.png</defaultImagePath>
+						<defaultImagePath>file://images/buttons/previous.png</defaultImagePath>
 						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
 					</plugin>
 				</visual>
@@ -201,7 +201,7 @@
 						<robotNamespace>next_button</robotNamespace>
 						<height>640</height>
 						<width>640</width>
-						<defaultImagePath>file://images/buttons/next_selected.png</defaultImagePath>
+						<defaultImagePath>file://images/buttons/next.png</defaultImagePath>
 						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
 					</plugin>
 				</visual>
@@ -231,7 +231,7 @@
 						<robotNamespace>last_button</robotNamespace>
 						<height>640</height>
 						<width>640</width>
-						<defaultImagePath>file://images/buttons/last_selected.png</defaultImagePath>
+						<defaultImagePath>file://images/buttons/last.png</defaultImagePath>
 						<useDoubleSideRenderingOnPlanes>false</useDoubleSideRenderingOnPlanes>
 					</plugin>
 				</visual>
