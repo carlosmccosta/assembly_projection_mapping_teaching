@@ -1,0 +1,12 @@
+step_0:
+    text: images/assembly_text.png
+    video: videos/mass_effect.mp4
+step_1:
+    text: images/assembly_frame.png
+    video: videos/mars.mkv
+step_2:
+    text: images/assembly_text.png
+    video: videos/mass_effect.mp4
+step_3:
+    text: images/assembly_frame.png
+    video: videos/mars.mkv

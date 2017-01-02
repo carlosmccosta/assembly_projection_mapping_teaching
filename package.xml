@@ -15,6 +15,7 @@
 	<!-- Build dependencies -->
 	<!-- ################################################################## -->
 
+	<build_depend>geometry_msgs</build_depend>
 	<build_depend>rosconsole</build_depend>
 	<build_depend>roscpp</build_depend>
 	<build_depend>rostime</build_depend>
@@ -26,6 +27,7 @@
 	<!-- Run dependencies -->
 	<!-- ################################################################## -->
 
+	<run_depend>geometry_msgs</run_depend>
 	<run_depend>gazebo_projection_mapping</run_depend>
 	<run_depend>gazebo_ros_pkgs</run_depend>
 	<run_depend>rosconsole</run_depend>
