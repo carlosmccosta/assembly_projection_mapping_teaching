@@ -1,0 +1,72 @@
+#################################################
+# Step 1 - Assembly components and tools
+- Gather all the components of the Mitsubishi M000T20873 starter motor
+- Gather the tools required for the assembly
+  - Slotted and crossed screwdrivers
+  - 8 mm and 12 mm wrenches
+
+
+#################################################
+# Step 2 - Brush holder
+- Join the support brush holder with the second half that has the terminal conductor
+- Adjust the brushes position to be perpendicular with the center cylinder
+- Make sure the wires are tightly wound
+
+
+#################################################
+# Step 3 - Brushes
+- Join the support brush holder with the armature
+- Install the 4 black plastic brush holders along with the springs
+- Make sure to bend the small metal on the outer edge to hold each brush in place
+
+
+#################################################
+# Step 4 - Rear bracket and yoke
+- Screw the rear bracket to the brush holder support
+- Insert the armature into the yoke assembly
+- Caution:
+  - The yoke assembly has strong magnets
+  - Use a screwdriver to hold the armature and ensure a smooth assembly
+
+
+#################################################
+# Step 5 - Front bracket, clutch and shift lever
+- Pick the front bracket and place into the fixture
+- Insert the overrunning clutch into the front bracket along with the shift lever
+- Ensure that the clutch can rotate smoothly and is lubricated
+
+
+#################################################
+# Step 6 - Gears
+- Insert the planetary gears into the clutch
+- Lubricate the gears, clutch and lever
+- Ensure that the clutch and gears rotate smoothly
+
+
+#################################################
+# Step 7 - Plunger and rubbers
+- Join the plunger with the lever
+- Make sure that the lever is lifting the clutch smoothly
+  - If not, it is mounted incorrectly and should be rotated 180º
+- Add the metal plate and isolation rubbers to the front bracket
+
+
+#################################################
+# Step 8 - Magnetic switch
+- Add the large spring to the plunger
+- Insert the magnetic switch into the plunger spring
+- Attach the magnetic switch to the front bracket using the two small screws
+
+
+#################################################
+# Step 9 - Bolts
+- Insert the armature between the planetary gears
+- Screw the connector to the magnetic switch
+- Screw the two long bolts to the yoke assembly
+
+
+#################################################
+# Step 10 - Inspection
+- Perform a visual inspection of the assembly
+- Make sure that the clutch can rotate smoothly and is well lubricated
+- Recheck if all screws are tighten

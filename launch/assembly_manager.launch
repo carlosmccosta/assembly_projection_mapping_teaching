@@ -8,7 +8,7 @@
 		<param name="videos_start_paused" type="bool" value="false" />
 		<param name="video_seek_start_position" type="double" value="$(arg video_seek_start_position)" />
 		<param name="video_seek_end_position" type="double" value="$(arg video_seek_end_position)" />
-		<param name="button_highlight_time_sec" type="double" value="0.75" />
+		<param name="button_highlight_time_sec" type="double" value="0.33" />
 		<rosparam command="load" file="$(arg yaml_configuration)" subst_value="true" />
 	</node>
 </launch>

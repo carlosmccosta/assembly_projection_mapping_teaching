@@ -1,12 +1,30 @@
-step_0:
-    text: images/assembly_text.png
-    video: videos/mass_effect.mp4
-step_1:
-    text: images/assembly_frame.png
-    video: videos/mars.mkv
-step_2:
-    text: images/assembly_text.png
-    video: videos/mass_effect.mp4
-step_3:
-    text: images/assembly_frame.png
-    video: videos/mars.mkv
+step_01:
+    text: images/assembly_steps/step_1_materials.png
+    video: videos/assembly_steps/step_1_materials.mp4
+step_02:
+    text: images/assembly_steps/step_2_brush_holder.png
+    video: videos/assembly_steps/step_2_brush_holder.mp4
+step_03:
+    text: images/assembly_steps/step_3_brushes.png
+    video: videos/assembly_steps/step_3_brushes.mp4
+step_04:
+    text: images/assembly_steps/step_4_rear_bracket_and_yoke.png
+    video: videos/assembly_steps/step_4_rear_bracket_and_yoke.mp4
+step_05:
+    text: images/assembly_steps/step_5_front_bracket_clutch_and_shift_lever.png
+    video: videos/assembly_steps/step_5_front_bracket_clutch_and_shift_lever.mp4
+step_06:
+    text: images/assembly_steps/step_6_gears.png
+    video: videos/assembly_steps/step_6_gears.mp4
+step_07:
+    text: images/assembly_steps/step_7_plunger_rubbers.png
+    video: videos/assembly_steps/step_7_plunger_rubbers.mp4
+step_08:
+    text: images/assembly_steps/step_8_magnetic_switch.png
+    video: videos/assembly_steps/step_8_magnetic_switch.mp4
+step_09:
+    text: images/assembly_steps/step_9_bolts.png
+    video: videos/assembly_steps/step_9_bolts.mp4
+step_10:
+    text: images/assembly_steps/step_10_inspection.png
+    video: videos/assembly_steps/step_10_inspection.mp4
