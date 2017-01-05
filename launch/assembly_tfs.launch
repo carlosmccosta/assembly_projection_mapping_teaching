@@ -12,7 +12,7 @@
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_map_top_left_z_down" args="0.30735 0 0 0 3.14159265359 0 map chessboard 10" />
 
 	<!-- chessboard corner detection -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_chessboard_correction" args="0 -0.006 0.002 0 0 0.044 chessboard kinect2 10" />
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_chessboard_correction" args="0 -0.006 0.015 0 -0.01 0.044 chessboard kinect2 10" />
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_chessboard" args="0.3116185950665425 0.3448095236158140 -0.7181840517787725 0.1615930545932430 -0.0161367261234114 0.0195006830770827 0.9865328246626011 kinect2 kinect2_link 10" />
 
 	<!-- change from image axis to ros axis convenction -->

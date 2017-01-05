@@ -13,9 +13,11 @@
 #include <vector>
 #include <ros/ros.h>
 #include <geometry_msgs/PointStamped.h>
+#include <geometry_msgs/TransformStamped.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float64.h>
 #include <std_msgs/String.h>
+#include <tf2_ros/static_transform_broadcaster.h>
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </includes>   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 namespace assembly_projection_mapping_teaching {
@@ -51,6 +53,7 @@ class AssemblyManager {
 
 		void publishCurrentAssemblyStepContent(const std::string& _button_name, ros::Publisher& _image_path_publisher, bool publish_highlighted_button = true);
 		void publishStepCounter(size_t _number, ros::Publisher& _first_number_publisher, ros::Publisher& _second_number_publisher);
+		void publishAssembledObjectTF(const ros::Time& _time_stamp, double _z_offset);
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </member-functions>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   <gets>   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -64,6 +67,7 @@ class AssemblyManager {
 	protected:
 		ros::NodeHandlePtr node_handle_;
 		ros::NodeHandlePtr private_node_handle_;
+		tf2_ros::StaticTransformBroadcaster transform_broadcaster_;
 
 		ros::Subscriber subscriber_occupancy_detection_video_paused_;
 		ros::Subscriber subscriber_occupancy_detection_video_seek_;
@@ -90,6 +94,8 @@ class AssemblyManager {
 		double video_seek_start_position_;
 		double video_seek_end_position_;
 		double button_highlight_time_sec_;
+		double z_offset_for_hiding_assembled_object_;
+		geometry_msgs::TransformStamped assembled_object_final_pose_;
 		std::string media_folder_path_;
 		std::vector<std::string> assembly_text_images_paths_;
 		std::vector<std::string> assembly_video_paths_;

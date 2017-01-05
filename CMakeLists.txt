@@ -12,6 +12,7 @@ set(${PROJECT_NAME}_CATKIN_COMPONENTS
     roscpp
     rostime
     std_msgs
+    tf2_ros
     xmlrpcpp
 )
 

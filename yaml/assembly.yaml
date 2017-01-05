@@ -1,30 +1,40 @@
 step_01:
-    text: images/assembly_steps/step_1_materials.png
-    video: videos/assembly_steps/step_1_materials.mp4
+    text: 'images/assembly_steps/step_1_materials.png'
+    video: 'videos/assembly_steps/step_1_materials.mp4'
 step_02:
-    text: images/assembly_steps/step_2_brush_holder.png
-    video: videos/assembly_steps/step_2_brush_holder.mp4
+    text: 'images/assembly_steps/step_2_brush_holder.png'
+    video: 'videos/assembly_steps/step_2_brush_holder.mp4'
 step_03:
-    text: images/assembly_steps/step_3_brushes.png
-    video: videos/assembly_steps/step_3_brushes.mp4
+    text: 'images/assembly_steps/step_3_brushes.png'
+    video: 'videos/assembly_steps/step_3_brushes.mp4'
 step_04:
-    text: images/assembly_steps/step_4_rear_bracket_and_yoke.png
-    video: videos/assembly_steps/step_4_rear_bracket_and_yoke.mp4
+    text: 'images/assembly_steps/step_4_rear_bracket_and_yoke.png'
+    video: 'videos/assembly_steps/step_4_rear_bracket_and_yoke.mp4'
 step_05:
-    text: images/assembly_steps/step_5_front_bracket_clutch_and_shift_lever.png
-    video: videos/assembly_steps/step_5_front_bracket_clutch_and_shift_lever.mp4
+    text: 'images/assembly_steps/step_5_front_bracket_clutch_and_shift_lever.png'
+    video: 'videos/assembly_steps/step_5_front_bracket_clutch_and_shift_lever.mp4'
 step_06:
-    text: images/assembly_steps/step_6_gears.png
-    video: videos/assembly_steps/step_6_gears.mp4
+    text: 'images/assembly_steps/step_6_gears.png'
+    video: 'videos/assembly_steps/step_6_gears.mp4'
 step_07:
-    text: images/assembly_steps/step_7_plunger_rubbers.png
-    video: videos/assembly_steps/step_7_plunger_rubbers.mp4
+    text: 'images/assembly_steps/step_7_plunger_rubbers.png'
+    video: 'videos/assembly_steps/step_7_plunger_rubbers.mp4'
 step_08:
-    text: images/assembly_steps/step_8_magnetic_switch.png
-    video: videos/assembly_steps/step_8_magnetic_switch.mp4
+    text: 'images/assembly_steps/step_8_magnetic_switch.png'
+    video: 'videos/assembly_steps/step_8_magnetic_switch.mp4'
 step_09:
-    text: images/assembly_steps/step_9_bolts.png
-    video: videos/assembly_steps/step_9_bolts.mp4
+    text: 'images/assembly_steps/step_9_bolts.png'
+    video: 'videos/assembly_steps/step_9_bolts.mp4'
 step_10:
-    text: images/assembly_steps/step_10_inspection.png
-    video: videos/assembly_steps/step_10_inspection.mp4
+    text: 'images/assembly_steps/step_10_inspection.png'
+    video: 'videos/assembly_steps/step_10_inspection.mp4'
+assembled_object_final_pose:
+    frame_id: 'map'
+    child_frame_id: 'assembled_object_link'
+    x: 0.289784
+    y: 0.17532
+    z: 0.034999
+    qx: 0.509890093375
+    qy: 0.507161584378
+    qz: 0.648195495381
+    qw: 0.250283478833

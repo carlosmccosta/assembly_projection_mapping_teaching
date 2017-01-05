@@ -17,7 +17,9 @@ AssemblyManager::AssemblyManager() :
 		current_assembly_step_(0),
 		video_paused_(false),
 		video_seek_start_position_(0.0),
-		button_highlight_time_sec_(0.5) {}
+		video_seek_end_position_(1.0),
+		button_highlight_time_sec_(0.5),
+		z_offset_for_hiding_assembled_object_(10.0) {}
 AssemblyManager::~AssemblyManager() {}
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </constructors-destructor>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -36,6 +38,17 @@ bool AssemblyManager::loadConfigurationFromParameterServer(ros::NodeHandlePtr& _
 	private_node_handle_->param("video_seek_start_position", video_seek_start_position_, 0.0);
 	private_node_handle_->param("video_seek_end_position", video_seek_end_position_, 1.0);
 	private_node_handle_->param("button_highlight_time_sec", button_highlight_time_sec_, 0.5);
+
+	private_node_handle_->param("assembled_object_final_pose/z_offset_for_hidding_assembled_object", z_offset_for_hiding_assembled_object_, 10.0);
+	private_node_handle_->param("assembled_object_final_pose/frame_id", assembled_object_final_pose_.header.frame_id, std::string("map"));
+	private_node_handle_->param("assembled_object_final_pose/child_frame_id", assembled_object_final_pose_.child_frame_id, std::string("assembled_object_link"));
+	private_node_handle_->param("assembled_object_final_pose/x", assembled_object_final_pose_.transform.translation.x, 0.0);
+	private_node_handle_->param("assembled_object_final_pose/y", assembled_object_final_pose_.transform.translation.y, 0.0);
+	private_node_handle_->param("assembled_object_final_pose/z", assembled_object_final_pose_.transform.translation.z, 0.0);
+	private_node_handle_->param("assembled_object_final_pose/qx", assembled_object_final_pose_.transform.rotation.x, 0.0);
+	private_node_handle_->param("assembled_object_final_pose/qy", assembled_object_final_pose_.transform.rotation.y, 0.0);
+	private_node_handle_->param("assembled_object_final_pose/qz", assembled_object_final_pose_.transform.rotation.z, 0.0);
+	private_node_handle_->param("assembled_object_final_pose/qw", assembled_object_final_pose_.transform.rotation.w, 1.0);
 
 	XmlRpc::XmlRpcValue steps;
 	if (_private_node_handle->getParam(_configuration_namespace, steps) && steps.getType() == XmlRpc::XmlRpcValue::TypeStruct) {
@@ -61,6 +74,7 @@ void AssemblyManager::start() {
 	setupPublishers();
 	publishStepCounter(assembly_text_images_paths_.size(), publisher_set_third_number_path_, publisher_set_fourth_number_path_);
 	publishCurrentAssemblyStepContent("first", publisher_set_first_button_path_, false);
+	publishAssembledObjectTF(ros::Time::now(), z_offset_for_hiding_assembled_object_);
 	startSubscribers();
 	ros::spin();
 }
@@ -108,6 +122,9 @@ void AssemblyManager::processVideoSeekMsg(const geometry_msgs::PointStampedConst
 
 void AssemblyManager::processFirstButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ > 0) {
+		if (current_assembly_step_ == assembly_text_images_paths_.size() - 1)
+			publishAssembledObjectTF(_msg->header.stamp, z_offset_for_hiding_assembled_object_);
+
 		current_assembly_step_ = 0;
 		publishCurrentAssemblyStepContent("first", publisher_set_first_button_path_);
 	}
@@ -115,6 +132,9 @@ void AssemblyManager::processFirstButtonMsg(const geometry_msgs::PointStampedCon
 
 void AssemblyManager::processPreviousButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ > 0) {
+		if (current_assembly_step_ == assembly_text_images_paths_.size() - 1)
+			publishAssembledObjectTF(_msg->header.stamp, z_offset_for_hiding_assembled_object_);
+
 		--current_assembly_step_;
 		publishCurrentAssemblyStepContent("previous", publisher_set_previous_button_path_);
 	}
@@ -123,12 +143,16 @@ void AssemblyManager::processPreviousButtonMsg(const geometry_msgs::PointStamped
 void AssemblyManager::processNextButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
 		++current_assembly_step_;
+		if (current_assembly_step_ == assembly_text_images_paths_.size() - 1)
+			publishAssembledObjectTF(_msg->header.stamp, -z_offset_for_hiding_assembled_object_);
+
 		publishCurrentAssemblyStepContent("next", publisher_set_next_button_path_);
 	}
 }
 
 void AssemblyManager::processLastButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
+		publishAssembledObjectTF(_msg->header.stamp, -z_offset_for_hiding_assembled_object_);
 		current_assembly_step_ = assembly_text_images_paths_.size() - 1;
 		publishCurrentAssemblyStepContent("last", publisher_set_last_button_path_);
 	}
@@ -195,6 +219,12 @@ void AssemblyManager::publishStepCounter(size_t _number, ros::Publisher& _first_
 	second_number_path_ss << media_folder_path_ << "/images/numbers/" << second_number << ".png";
 	second_number_path.data = second_number_path_ss.str();
 	_second_number_publisher.publish(second_number_path);
+}
+
+void AssemblyManager::publishAssembledObjectTF(const ros::Time& _time_stamp, double _z_offset) {
+	assembled_object_final_pose_.header.stamp = _time_stamp;
+	assembled_object_final_pose_.transform.translation.z += _z_offset;
+	transform_broadcaster_.sendTransform(assembled_object_final_pose_);
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </member-functions>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 // =============================================================================  </public-section>  ===========================================================================
