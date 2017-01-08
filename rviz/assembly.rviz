@@ -10,7 +10,6 @@ Panels:
         - /Kinect 11
         - /Kinect 21
         - /Object recognition1
-        - /Object recognition1/Sensor data filtered1
       Splitter Ratio: 0.719444454
     Tree Height: 818
   - Class: rviz/Selection
@@ -31,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Reference keypoints
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -69,8 +68,12 @@ Visualization Manager:
           Value: false
         kinect2:
           Value: false
+        kinect2_ir_optical_frame:
+          Value: true
         kinect2_link:
           Value: false
+        kinect2_rgb_optical_frame:
+          Value: true
         kinect_rgb:
           Value: false
         map:
@@ -90,26 +93,28 @@ Visualization Manager:
         assembled_object:
           assembled_object_link:
             {}
-        map:
-          assembled_object_base:
-            {}
-          chessboard:
-            kinect1:
-              kinect_rgb:
-                camera_link:
-                  camera_depth_frame:
-                    camera_depth_optical_frame:
+          map:
+            assembled_object_base:
+              {}
+            chessboard:
+              kinect1:
+                kinect_rgb:
+                  camera_link:
+                    camera_depth_frame:
+                      camera_depth_optical_frame:
+                        {}
+                    camera_rgb_frame:
+                      camera_rgb_optical_frame:
+                        {}
+              kinect2:
+                kinect2_link:
+                  kinect2_rgb_optical_frame:
+                    kinect2_ir_optical_frame:
                       {}
-                  camera_rgb_frame:
-                    camera_rgb_optical_frame:
-                      {}
-            kinect2:
-              kinect2_link:
-                {}
-          projector:
-            projector_fixed_axis:
-              projector_link:
-                {}
+            projector:
+              projector_fixed_axis:
+                projector_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 0.5
@@ -182,7 +187,7 @@ Visualization Manager:
           Color: 255; 255; 255
           Color Transformer: RGB8
           Decay Time: 0
-          Enabled: false
+          Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 4096
@@ -199,7 +204,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: false
+          Value: true
         - Class: rviz/Image
           Enabled: false
           Image Topic: /camera/rgb/image_raw
@@ -265,7 +270,7 @@ Visualization Manager:
           Size (Pixels): 5
           Size (m): 0.00200000009
           Style: Points
-          Topic: /kinect2/sd/points
+          Topic: /kinect2/qhd/points
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
@@ -852,7 +857,7 @@ Visualization Manager:
           Color: 255; 0; 0
           Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: true
+          Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 4096
@@ -869,7 +874,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: true
+          Value: false
         - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -941,24 +946,24 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.561825812
+      Distance: 0.674761891
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.129764348
-        Y: 0.124096073
-        Z: -0.0351197086
+        X: 0.180386558
+        Y: 0.149468139
+        Z: -0.0269822869
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.39479625
+      Pitch: 1.0297972
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.64712858
+      Yaw: 4.6853261
     Saved: ~
 Window Geometry:
   Displays:

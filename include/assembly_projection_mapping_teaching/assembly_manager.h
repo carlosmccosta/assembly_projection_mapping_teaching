@@ -91,6 +91,7 @@ class AssemblyManager {
 
 		size_t current_assembly_step_;
 		bool video_paused_;
+		std::string video_seek_point_axis_;
 		double video_seek_start_position_;
 		double video_seek_end_position_;
 		double button_highlight_time_sec_;

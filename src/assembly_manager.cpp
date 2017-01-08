@@ -35,6 +35,7 @@ bool AssemblyManager::loadConfigurationFromParameterServer(ros::NodeHandlePtr& _
 	}
 
 	private_node_handle_->param("videos_start_paused", video_paused_, false);
+	private_node_handle_->param("video_seek_point_axis", video_seek_point_axis_, std::string("x"));
 	private_node_handle_->param("video_seek_start_position", video_seek_start_position_, 0.0);
 	private_node_handle_->param("video_seek_end_position", video_seek_end_position_, 1.0);
 	private_node_handle_->param("button_highlight_time_sec", button_highlight_time_sec_, 0.5);
@@ -112,7 +113,15 @@ void AssemblyManager::processVideoPausedMsg(const geometry_msgs::PointStampedCon
 
 void AssemblyManager::processVideoSeekMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	double video_seek_length = video_seek_end_position_ - video_seek_start_position_;
-	double video_position_seek = _msg->point.x - video_seek_start_position_;
+	double video_position_seek;
+	if (video_seek_point_axis_ == "x") {
+		video_position_seek = _msg->point.x - video_seek_start_position_;
+	} else if (video_seek_point_axis_ == "y") {
+		video_position_seek = _msg->point.y - video_seek_start_position_;
+	} else {
+		video_position_seek = _msg->point.z - video_seek_start_position_;
+	}
+
 	if (video_seek_length > 0 && video_position_seek >= 0 && video_position_seek <= video_seek_length) {
 		std_msgs::Float64 msg_to_publish;
 		msg_to_publish.data = video_position_seek / video_seek_length;

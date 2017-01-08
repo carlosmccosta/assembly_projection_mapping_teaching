@@ -430,7 +430,7 @@
 
 		<model name="calibration_pattern">
 			<static>1</static>
-			<pose>0.153675 0.10245 -0.001 0 0 0</pose>
+			<pose>0.153675 0.10245 -0.0005 0 0 0</pose>
 			<link name="calibration_pattern_link">
 				<visual name="visual">
 					<transparency>0</transparency>

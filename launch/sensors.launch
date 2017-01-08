@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<include file="$(find assembly_projection_mapping_teaching)/launch/sensor_asus_xtion.launch"/>
+	<include file="$(find assembly_projection_mapping_teaching)/launch/sensor_kinect2.launch"/>
+</launch>

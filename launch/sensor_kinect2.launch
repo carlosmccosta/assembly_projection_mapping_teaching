@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
+		<arg name="depth_method" default="cuda" />
+		<arg name="reg_method" default="opencl" />
+		<arg name="publish_tf" default="true" />
+		<arg name="fps_limit" default="10" />
+	</include>
+</launch>
