@@ -29,12 +29,5 @@ step_10:
     text: 'images/assembly_steps/step_10_inspection.png'
     video: 'videos/assembly_steps/step_10_inspection.mp4'
 assembled_object_final_pose:
-    frame_id: 'map'
+    frame_id: 'assembled_object'
     child_frame_id: 'assembled_object_link'
-    x: 0.289784
-    y: 0.17532
-    z: 0.034999
-    qx: 0.509890093375
-    qy: 0.507161584378
-    qz: 0.648195495381
-    qw: 0.250283478833

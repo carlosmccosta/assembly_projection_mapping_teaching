@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<!-- topics -->
+	<arg name="pose_with_covariance_stamped_topic" default="/initialpose" /> <!-- rviz topic -->
+	<arg name="ambient_pointcloud_topic" default="/kinect2/qhd/points+/camera/depth/points" />
+	<arg name="pose_stamped_publish_topic" default="localization_pose" />
+
+	<!-- reference map data -->
+	<arg name="reference_pointcloud_filename" default="$(find assembly_projection_mapping_teaching)/media/models/starter_motor.ply" />
+	<arg name="reference_pointcloud_preprocessed_save_filename" default="$(find assembly_projection_mapping_teaching)/media/models/starter_motor_preprocessed.pcd" />
+	<arg name="reference_pointcloud_available" default="true" />
+	<arg name="reference_pointcloud_type" default="3D" />
+	<arg name="reference_pointcloud_update_mode" default="NoIntegration" />
+	<arg name="reference_pointcloud_keypoints_filename" default="" />
+	<arg name="reference_pointcloud_keypoints_save_filename" default="" />
+	<arg name="reference_pointcloud_descriptors_filename" default="" />
+	<arg name="reference_pointcloud_descriptors_save_filename" default="" />
+
+	<!-- frame ids -->
+	<arg name="map_frame_id" default="assembled_object" />
+	<arg name="odom_frame_id" default="map" />
+	<arg name="base_link_frame_id" default="assembled_object_base" />
+	<arg name="sensor_frame_id" default="kinect2_ir_optical_frame" />
+
+	<!-- initial pose setup -->
+	<arg name="robot_initial_pose_in_base_to_map" default="true" />
+	<arg name="robot_initial_pose_available" default="false" />
+	<arg name="robot_initial_x" default="0" />
+	<arg name="robot_initial_y" default="0" />
+	<arg name="robot_initial_z" default="0" />
+	<arg name="robot_initial_roll" default="0" />
+	<arg name="robot_initial_pitch" default="0" />
+	<arg name="robot_initial_yaw" default="0" />
+
+	<!-- tf configurations -->
+	<arg name="publish_initial_pose" default="1" />
+	<arg name="publish_pose_tf_rate" default="10.0" />
+	<arg name="publish_last_pose_tf_timeout_seconds" default="-3.0" />
+	<arg name="invert_tf_transform" default="false" />
+	<arg name="invert_tf_hierarchy" default="false" />
+	<arg name="transform_pose_to_map_frame_id" default="true" />
+
+	<arg name="yaml_configuration_filters_filename" default="$(find assembly_projection_mapping_teaching)/yaml/object_recognition/filters.yaml" />
+	<arg name="yaml_configuration_pose_estimation_filename" default="$(find assembly_projection_mapping_teaching)/yaml/object_recognition/initial_pose_estimation.yaml" />
+	<arg name="yaml_configuration_tracking_filename" default="$(find assembly_projection_mapping_teaching)/yaml/object_recognition/pose_tracking.yaml" />
+	<arg name="yaml_configuration_recovery_filename" default="$(find assembly_projection_mapping_teaching)/yaml/object_recognition/pose_recovery.yaml" />
+
+	<node pkg="dynamic_robot_localization" type="drl_localization_node" name="drl_object_recognition" ns="object_recognition" respawn="true" clear_params="true" output="screen" > <!-- launch-prefix="gdbserver localhost:1337" --> 
+		<param name="frame_ids/map_frame_id" type="str" value="$(arg map_frame_id)" />
+		<param name="frame_ids/odom_frame_id" type="str" value="$(arg odom_frame_id)" />
+		<param name="frame_ids/base_link_frame_id" type="str" value="$(arg base_link_frame_id)" />
+		<param name="frame_ids/sensor_frame_id" type="str" value="$(arg sensor_frame_id)" />
+		<param name="initial_pose/robot_initial_pose_in_base_to_map" type="bool" value="$(arg robot_initial_pose_in_base_to_map)" />
+		<param name="initial_pose/robot_initial_pose_available" type="bool" value="$(arg robot_initial_pose_available)" />
+		<param name="initial_pose/position/x" type="double" value="$(arg robot_initial_x)" />
+		<param name="initial_pose/position/y" type="double" value="$(arg robot_initial_y)" />
+		<param name="initial_pose/position/z" type="double" value="$(arg robot_initial_z)" />
+		<param name="initial_pose/orientation_rpy/roll" type="double" value="$(arg robot_initial_roll)" />
+		<param name="initial_pose/orientation_rpy/pitch" type="double" value="$(arg robot_initial_pitch)" />
+		<param name="initial_pose/orientation_rpy/yaw" type="double" value="$(arg robot_initial_yaw)" />
+		<param name="subscribe_topic_names/pose_topic" type="str" value="" />
+		<param name="subscribe_topic_names/pose_stamped_topic" type="str" value="" />
+		<param name="subscribe_topic_names/pose_with_covariance_stamped_topic" type="str" value="$(arg pose_with_covariance_stamped_topic)" />
+		<param name="subscribe_topic_names/ambient_pointcloud_topic" type="str" value="$(arg ambient_pointcloud_topic)" />
+		<param name="subscribe_topic_names/reference_costmap_topic" type="str" value="" />
+		<param name="subscribe_topic_names/reference_pointcloud_topic" type="str" value="" />
+		<param name="publish_topic_names/pose_with_covariance_stamped_publish_topic" type="str" value="" />
+		<param name="publish_topic_names/pose_stamped_publish_topic" type="str" value="$(arg pose_stamped_publish_topic)" />
+		<param name="reference_pointclouds/reference_pointcloud_filename" type="str" value="$(arg reference_pointcloud_filename)" />
+		<param name="reference_pointclouds/reference_pointcloud_preprocessed_save_filename" type="str" value="$(arg reference_pointcloud_preprocessed_save_filename)" />
+		<param name="reference_pointclouds/reference_pointcloud_type" type="str" value="$(arg reference_pointcloud_type)" />
+		<param name="reference_pointclouds/reference_pointcloud_available" type="bool" value="$(arg reference_pointcloud_available)" />
+		<param name="reference_pointclouds/reference_pointcloud_update_mode" type="str" value="$(arg reference_pointcloud_update_mode)" />
+		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_filename" type="str" value="$(arg reference_pointcloud_keypoints_filename)" />
+		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_save_filename" type="str" value="$(arg reference_pointcloud_keypoints_save_filename)" />
+		<param name="initial_pose_estimators_matchers/feature_matchers/reference_pointcloud_descriptors_filename" type="str" value="$(arg reference_pointcloud_descriptors_filename)" />
+		<param name="initial_pose_estimators_matchers/feature_matchers/reference_pointcloud_descriptors_save_filename" type="str" value="$(arg reference_pointcloud_descriptors_save_filename)" />
+		<rosparam command="load" file="$(arg yaml_configuration_filters_filename)" subst_value="true" />
+		<rosparam command="load" file="$(arg yaml_configuration_pose_estimation_filename)" subst_value="true" />
+		<rosparam command="load" file="$(arg yaml_configuration_recovery_filename)" subst_value="true" />
+		<rosparam command="load" file="$(arg yaml_configuration_tracking_filename)" subst_value="true" />
+	</node>
+
+	<include file="$(find pose_to_tf_publisher)/launch/pose_to_tf_publisher.launch" >
+		<arg name="publish_rate" default="$(arg publish_pose_tf_rate)" />
+		<arg name="tf_lookup_timeout" default="1.5" />
+		<arg name="publish_last_pose_tf_timeout_seconds" default="$(arg publish_last_pose_tf_timeout_seconds)" />
+		<arg name="pose_with_covariance_stamped_topic" default="$(arg pose_with_covariance_stamped_topic)" /> <!-- rviz topic -->
+		<arg name="pose_stamped_topic" default="$(arg pose_stamped_publish_topic)" />
+		<arg name="odometry_topic" default="" />
+		<arg name="map_frame_id" default="$(arg map_frame_id)" />
+		<arg name="odom_frame_id" default="$(arg odom_frame_id)" />
+		<arg name="base_link_frame_id" default="$(arg base_link_frame_id)" />
+		<arg name="publish_initial_pose" default="$(arg publish_initial_pose)" />
+		<arg name="initial_pose_in_base_to_map" default="$(arg robot_initial_pose_in_base_to_map)" />
+		<arg name="initial_x" default="$(arg robot_initial_x)" />
+		<arg name="initial_y" default="$(arg robot_initial_y)" />
+		<arg name="initial_z" default="$(arg robot_initial_z)" />
+		<arg name="initial_roll" default="$(arg robot_initial_roll)" />
+		<arg name="initial_pitch" default="$(arg robot_initial_pitch)" />
+		<arg name="initial_yaw" default="$(arg robot_initial_yaw)" />
+		<arg name="invert_tf_transform" default="true" if="$(arg invert_tf_transform)" />
+		<arg name="invert_tf_hierarchy" default="true" if="$(arg invert_tf_hierarchy)" />
+		<arg name="transform_pose_to_map_frame_id" default="$(arg transform_pose_to_map_frame_id)" />
+		<arg name="parameters_namespace" default="object_recognition" />
+		<arg name="nodes_respawn" default="true" />
+	</include>
+	
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_odom" args="0 0 0 0 0 0 $(arg odom_frame_id) $(arg base_link_frame_id) 10"/>
+</launch>

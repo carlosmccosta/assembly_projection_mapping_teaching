@@ -1,0 +1,65 @@
+pcl_verbosity_level: 'ERROR'                                    # VERBOSE | DEBUG | INFO | WARN | ERROR | ALWAYS || ALWAYS -> no console output
+ros_verbosity_level: 'INFO'                                     #           DEBUG | INFO | WARN | ERROR | FATAL
+
+message_management:
+    use_odom_when_transforming_cloud_to_map_frame: false
+    invert_cloud_to_map_transform: false
+    invert_registration_transformation: false
+    invert_initial_poses_from_msgs: true
+    initial_pose_msg_needs_to_be_in_map_frame: false
+    minimum_number_of_points_in_ambient_pointcloud: 10
+    circular_buffer_clear_inserted_points_if_registration_fails: false
+    circular_buffer_require_reception_of_pointcloud_msgs_from_all_topics_before_doing_registration: true
+    minimum_number_points_ambient_pointcloud_circular_buffer: 5000
+    maximum_number_points_ambient_pointcloud_circular_buffer: 5000
+
+publish_topic_names:
+    publish_aligned_pointcloud_only_if_there_is_subscribers: false
+
+tracking_matchers:
+    ignore_height_corrections: false
+    pose_tracking_timeout: 2.0
+    pose_tracking_minimum_number_of_failed_registrations_since_last_valid_pose: 5
+    pose_tracking_maximum_number_of_failed_registrations_since_last_valid_pose: 7
+    point_matchers:
+        iterative_closest_point:
+#        iterative_closest_point_non_linear:
+#        iterative_closest_point_with_normals:
+#        iterative_closest_point_generalized:
+            convergence_time_limit_seconds: 2
+            max_correspondence_distance: 0.15
+            transformation_epsilon: 1e-5
+            euclidean_fitness_epsilon: 1e-5
+            max_number_of_registration_iterations: 350
+            max_number_of_ransac_iterations: 0
+            ransac_outlier_rejection_threshold: 0.05
+            match_only_keypoints: false
+            display_cloud_aligment: false
+            maximum_number_of_displayed_correspondences: 0
+            rotation_epsilon: 0.002
+            correspondence_randomness: 50
+            maximum_optimizer_iterations: 100
+            use_reciprocal_correspondences: false
+
+
+outlier_detectors:
+    euclidean_outlier_detector:
+        max_inliers_distance: 0.02
+        aligned_pointcloud_outliers_publish_topic: 'aligned_pointcloud_outliers'
+        aligned_pointcloud_inliers_publish_topic: 'aligned_pointcloud_inliers'
+
+
+#transformation_validators:
+#    euclidean_transformation_validator:
+#        max_transformation_angle: 0.3
+#        max_transformation_distance: 0.05
+#        max_new_pose_diff_angle: 1.0
+#        max_new_pose_diff_distance: 0.5
+#        max_root_mean_square_error: 0.05
+#        max_outliers_percentage: 0.07
+#
+#
+#transformation_validators_tracking_recovery:
+#    euclidean_transformation_validator:
+#        max_root_mean_square_error: 0.05
+#        max_outliers_percentage: 0.1

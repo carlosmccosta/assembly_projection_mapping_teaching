@@ -2,7 +2,7 @@
 	<world name='default'>
 		<model name="assembled_object">
 			<static>1</static>
-			<pose>0.289784 0.175320 0.034999 1.608468 -0.419330 1.969680</pose>
+			<pose>0.33 0.16 0 0 0 0.2</pose>
 			<link name="assembled_object_link">
 				<visual name="assembled_object_visual">
 					<transparency>0</transparency>
@@ -433,7 +433,7 @@
 			<pose>0.153675 0.10245 -0.001 0 0 0</pose>
 			<link name="calibration_pattern_link">
 				<visual name="visual">
-					<transparency>1</transparency>
+					<transparency>0</transparency>
 					<cast_shadows>false</cast_shadows>
 					<geometry>
 						<box>
