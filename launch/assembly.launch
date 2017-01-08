@@ -27,6 +27,7 @@
 	</node>
 
 	<include file="$(find assembly_projection_mapping_teaching)/launch/assembly_tfs.launch" if="$(arg publish_tfs)" />
-	<include file="$(find occupancy_detection)/launch/occupancy_detection.launch"/>
 	<include file="$(find assembly_projection_mapping_teaching)/launch/assembly_manager.launch"/>
+	<include file="$(find assembly_projection_mapping_teaching)/launch/object_recognition.launch"/>
+	<include file="$(find occupancy_detection)/launch/occupancy_detection.launch"/>
 </launch>

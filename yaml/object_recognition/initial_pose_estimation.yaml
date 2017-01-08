@@ -16,7 +16,7 @@ normal_estimators:
         display_normals: false
         normal_estimation_omp:
             search_k: 0
-            search_radius: 0.005
+            search_radius: 0.02
 
 
 #curvature_estimators:
@@ -31,11 +31,11 @@ normal_estimators:
 keypoint_detectors:
     reference_pointcloud:
         sift_3d:
-            min_scale: 0.0025
+            min_scale: 0.005
             number_octaves: 3
             number_scales_per_octave: 4
-            min_contrast: 0.0025
-            sift3d_keypoints_cloud_publish_topic: 'reference_keypoints'
+            min_contrast: 0.005
+            sift3d_keypoints_cloud_publish_topic: ''
 #        intrinsic_shape_signature_3d:
 #            salient_radius: 0.025
 #            non_max_radius: 0.015
@@ -51,10 +51,10 @@ keypoint_detectors:
         compute_keypoints_when_recovering_pose_tracking: false
         compute_keypoints_when_estimating_initial_pose: true
         sift_3d:
-            min_scale: 0.0025
+            min_scale: 0.005
             number_octaves: 3
             number_scales_per_octave: 4
-            min_contrast: 0.0025
+            min_contrast: 0.005
             sift3d_keypoints_cloud_publish_topic: 'ambient_keypoints'
 #        intrinsic_shape_signature_3d:
 #            salient_radius: 0.025
@@ -73,8 +73,8 @@ initial_pose_estimators_matchers:
         display_feature_matching: false
         save_descriptors_in_binary_format : true
         keypoint_descriptors:
-            feature_descriptor_k_search: 10
-            feature_descriptor_radius_search: 0
+            feature_descriptor_k_search: 0
+            feature_descriptor_radius_search: 0.03
             fpfh:
                 number_subdivisions_f1: 11
                 number_subdivisions_f2: 11
@@ -99,9 +99,9 @@ initial_pose_estimators_matchers:
             sample_consensus_initial_alignment_prerejective:
                 convergence_time_limit_seconds: 10.0
                 similarity_threshold: 0.5
-                inlier_fraction: 0.5
-                number_of_samples: 15
-                correspondence_randomness: 75
+                inlier_fraction: 0.7
+                number_of_samples: 10
+                correspondence_randomness: 20
 #            sample_consensus_initial_alignment:
 #                min_sample_distance: 0.5
 #                number_of_samples: 3
@@ -116,7 +116,7 @@ initial_pose_estimators_matchers:
             transformation_epsilon: 1e-5
             euclidean_fitness_epsilon: 1e-5
             max_number_of_registration_iterations: 300
-            max_number_of_ransac_iterations: 300
+            max_number_of_ransac_iterations: 0
             ransac_outlier_rejection_threshold: 0.05
             match_only_keypoints: false
             display_cloud_aligment: false

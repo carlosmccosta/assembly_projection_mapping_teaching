@@ -2,12 +2,12 @@
 <launch>
 	<!-- topics -->
 	<arg name="pose_with_covariance_stamped_topic" default="/initialpose" /> <!-- rviz topic -->
-	<arg name="ambient_pointcloud_topic" default="/kinect2/qhd/points+/camera/depth/points" />
+	<arg name="ambient_pointcloud_topic" default="/camera/depth_registered/points" /> <!-- /kinect2/qhd/points+/camera/depth/points -->
 	<arg name="pose_stamped_publish_topic" default="localization_pose" />
 
 	<!-- reference map data -->
 	<arg name="reference_pointcloud_filename" default="$(find assembly_projection_mapping_teaching)/media/models/starter_motor.ply" />
-	<arg name="reference_pointcloud_preprocessed_save_filename" default="$(find assembly_projection_mapping_teaching)/media/models/starter_motor_preprocessed.pcd" />
+	<arg name="reference_pointcloud_preprocessed_save_filename" default="" />
 	<arg name="reference_pointcloud_available" default="true" />
 	<arg name="reference_pointcloud_type" default="3D" />
 	<arg name="reference_pointcloud_update_mode" default="NoIntegration" />
@@ -36,10 +36,11 @@
 	<arg name="publish_initial_pose" default="1" />
 	<arg name="publish_pose_tf_rate" default="10.0" />
 	<arg name="publish_last_pose_tf_timeout_seconds" default="-3.0" />
-	<arg name="invert_tf_transform" default="false" />
+	<arg name="invert_tf_transform" default="true" />
 	<arg name="invert_tf_hierarchy" default="false" />
 	<arg name="transform_pose_to_map_frame_id" default="true" />
 
+	<arg name="yaml_configuration_configs_filename" default="$(find assembly_projection_mapping_teaching)/yaml/object_recognition/configs.yaml" />
 	<arg name="yaml_configuration_filters_filename" default="$(find assembly_projection_mapping_teaching)/yaml/object_recognition/filters.yaml" />
 	<arg name="yaml_configuration_pose_estimation_filename" default="$(find assembly_projection_mapping_teaching)/yaml/object_recognition/initial_pose_estimation.yaml" />
 	<arg name="yaml_configuration_tracking_filename" default="$(find assembly_projection_mapping_teaching)/yaml/object_recognition/pose_tracking.yaml" />
@@ -75,6 +76,7 @@
 		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_save_filename" type="str" value="$(arg reference_pointcloud_keypoints_save_filename)" />
 		<param name="initial_pose_estimators_matchers/feature_matchers/reference_pointcloud_descriptors_filename" type="str" value="$(arg reference_pointcloud_descriptors_filename)" />
 		<param name="initial_pose_estimators_matchers/feature_matchers/reference_pointcloud_descriptors_save_filename" type="str" value="$(arg reference_pointcloud_descriptors_save_filename)" />
+		<rosparam command="load" file="$(arg yaml_configuration_configs_filename)" subst_value="true" />
 		<rosparam command="load" file="$(arg yaml_configuration_filters_filename)" subst_value="true" />
 		<rosparam command="load" file="$(arg yaml_configuration_pose_estimation_filename)" subst_value="true" />
 		<rosparam command="load" file="$(arg yaml_configuration_recovery_filename)" subst_value="true" />
@@ -108,3 +110,4 @@
 	
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_odom" args="0 0 0 0 0 0 $(arg odom_frame_id) $(arg base_link_frame_id) 10"/>
 </launch>
+

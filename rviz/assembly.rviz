@@ -5,10 +5,12 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Axes1
         - /TF1/Frames1
         - /Kinect 11
         - /Kinect 21
         - /Object recognition1
+        - /Object recognition1/Sensor data filtered1
       Splitter Ratio: 0.719444454
     Tree Height: 818
   - Class: rviz/Selection
@@ -29,15 +31,15 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Image RGB
+    SyncSource: Reference keypoints
 Visualization Manager:
   Class: ""
   Displays:
     - Class: rviz/Axes
       Enabled: true
-      Length: 0.100000001
+      Length: 0.0199999996
       Name: Axes
-      Radius: 0.00999999978
+      Radius: 0.00200000009
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/TF
@@ -46,43 +48,39 @@ Visualization Manager:
       Frames:
         All Enabled: false
         assembled_object:
-          Value: true
+          Value: false
         assembled_object_base:
-          Value: true
+          Value: false
         assembled_object_link:
           Value: true
         camera_depth_frame:
-          Value: true
+          Value: false
         camera_depth_optical_frame:
           Value: true
         camera_link:
-          Value: true
+          Value: false
         camera_rgb_frame:
-          Value: true
+          Value: false
         camera_rgb_optical_frame:
-          Value: true
+          Value: false
         chessboard:
-          Value: true
+          Value: false
         kinect1:
-          Value: true
+          Value: false
         kinect2:
-          Value: true
-        kinect2_ir_optical_frame:
-          Value: true
+          Value: false
         kinect2_link:
-          Value: true
-        kinect2_rgb_optical_frame:
-          Value: true
+          Value: false
         kinect_rgb:
-          Value: true
+          Value: false
         map:
-          Value: true
+          Value: false
         projector:
-          Value: true
+          Value: false
         projector_fixed_axis:
-          Value: true
+          Value: false
         projector_link:
-          Value: true
+          Value: false
       Marker Scale: 0.200000003
       Name: TF
       Show Arrows: true
@@ -107,9 +105,7 @@ Visualization Manager:
                       {}
             kinect2:
               kinect2_link:
-                kinect2_rgb_optical_frame:
-                  kinect2_ir_optical_frame:
-                    {}
+                {}
           projector:
             projector_fixed_axis:
               projector_link:
@@ -147,8 +143,8 @@ Visualization Manager:
         - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
-            Max Value: 0.0957418978
-            Min Value: -0.802565336
+            Max Value: 0.0996773839
+            Min Value: -0.813619733
             Value: true
           Axis: Z
           Channel Name: intensity
@@ -354,6 +350,14 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /occupancy_detection/dynamic_occupancy_detector_workspace/roi_marker
+          Name: Marker
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: true
       Enabled: false
       Name: OD workspace
     - Class: rviz/Group
@@ -397,6 +401,14 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
+          Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /occupancy_detection/static_occupancy_detector_first_button/roi_marker
+          Name: Marker
+          Namespaces:
+            static_occupancy_detector_first_button/: true
+          Queue Size: 100
           Value: true
       Enabled: true
       Name: OD first button
@@ -442,6 +454,14 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /occupancy_detection/static_occupancy_detector_previous_button/roi_marker
+          Name: Marker
+          Namespaces:
+            static_occupancy_detector_previous_button/: true
+          Queue Size: 100
+          Value: true
       Enabled: true
       Name: OD previous button
     - Class: rviz/Group
@@ -485,6 +505,14 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
+          Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /occupancy_detection/static_occupancy_detector_next_button/roi_marker
+          Name: Marker
+          Namespaces:
+            static_occupancy_detector_next_button/: true
+          Queue Size: 100
           Value: true
       Enabled: true
       Name: OD next button
@@ -530,6 +558,14 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /occupancy_detection/static_occupancy_detector_last_button/roi_marker
+          Name: Marker
+          Namespaces:
+            static_occupancy_detector_last_button/: true
+          Queue Size: 100
+          Value: true
       Enabled: true
       Name: OD last button
     - Class: rviz/Group
@@ -574,7 +610,15 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-      Enabled: false
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /occupancy_detection/static_occupancy_detector_video_paused/roi_marker
+          Name: Marker
+          Namespaces:
+            static_occupancy_detector_video_paused/: true
+          Queue Size: 100
+          Value: true
+      Enabled: true
       Name: OD video paused
     - Class: rviz/Group
       Displays:
@@ -618,7 +662,15 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-      Enabled: false
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /occupancy_detection/dynamic_occupancy_detector_video_seek/roi_marker
+          Name: Marker
+          Namespaces:
+            dynamic_occupancy_detector_video_seek/: true
+          Queue Size: 100
+          Value: true
+      Enabled: true
       Name: OD video seek
     - Class: rviz/Group
       Displays:
@@ -644,7 +696,7 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 1
+          Size (Pixels): 5
           Size (m): 0.00999999978
           Style: Points
           Topic: /object_recognition/reference_pointcloud
@@ -661,7 +713,7 @@ Visualization Manager:
           Axis: Z
           Channel Name: intensity
           Class: rviz/PointCloud2
-          Color: 85; 0; 127
+          Color: 255; 255; 0
           Color Transformer: FlatColor
           Decay Time: 0
           Enabled: true
@@ -674,10 +726,10 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 10
+          Size (Pixels): 20
           Size (m): 0.00999999978
           Style: Points
-          Topic: /object_recognition/reference_keypoints
+          Topic: /object_recognition/reference_pointcloud_keypoints
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
@@ -704,9 +756,9 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00999999978
-          Style: Points
+          Size (Pixels): 10
+          Size (m): 0.00329999998
+          Style: Spheres
           Topic: /object_recognition/filtered_pointcloud
           Unreliable: false
           Use Fixed Frame: true
@@ -721,7 +773,7 @@ Visualization Manager:
           Axis: Z
           Channel Name: intensity
           Class: rviz/PointCloud2
-          Color: 85; 255; 255
+          Color: 0; 85; 255
           Color Transformer: FlatColor
           Decay Time: 0
           Enabled: true
@@ -734,7 +786,7 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 3
+          Size (Pixels): 20
           Size (m): 0.00999999978
           Style: Points
           Topic: /object_recognition/ambient_keypoints
@@ -748,7 +800,7 @@ Visualization Manager:
           Axes Radius: 0.00999999978
           Class: rviz/PoseArray
           Color: 255; 25; 0
-          Enabled: true
+          Enabled: false
           Head Length: 0.0700000003
           Head Radius: 0.0299999993
           Name: Initial pose estimation
@@ -757,7 +809,7 @@ Visualization Manager:
           Shape: Arrow (Flat)
           Topic: /object_recognition/localization_initial_pose_estimations
           Unreliable: false
-          Value: true
+          Value: false
         - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -770,7 +822,7 @@ Visualization Manager:
           Color: 0; 255; 0
           Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: true
+          Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 4096
@@ -787,7 +839,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: true
+          Value: false
         - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -830,7 +882,7 @@ Visualization Manager:
           Color: 255; 255; 255
           Color Transformer: RGB8
           Decay Time: 0
-          Enabled: true
+          Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 4096
@@ -847,13 +899,13 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: true
+          Value: false
         - Alpha: 1
           Axes Length: 1
           Axes Radius: 0.100000001
           Class: rviz/Pose
           Color: 255; 25; 0
-          Enabled: true
+          Enabled: false
           Head Length: 0.100000001
           Head Radius: 0.0500000007
           Name: Pose estimation
@@ -862,7 +914,7 @@ Visualization Manager:
           Shape: Arrow
           Topic: /object_recognition/localization_pose
           Unreliable: false
-          Value: true
+          Value: false
       Enabled: true
       Name: Object recognition
   Enabled: true
@@ -889,24 +941,24 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.572804511
+      Distance: 0.561825812
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.100219354
-        Y: 0.0508927703
-        Z: 0.0656587556
+        X: 0.129764348
+        Y: 0.124096073
+        Z: -0.0351197086
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.02479565
+      Pitch: 1.39479625
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.38661575
+      Yaw: 4.64712858
     Saved: ~
 Window Geometry:
   Displays:
