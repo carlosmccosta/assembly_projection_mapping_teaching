@@ -1,0 +1,79 @@
+===========
+// assembly
+roslaunch assembly_projection_mapping_teaching assembly.launch use_gazebo_gui:=false publish_tfs:=true show_rviz:=true start_sensors:=true
+	roslaunch assembly_projection_mapping_teaching sensors.launch
+		// kinect 1 - Asus Xtion Pro Live
+		rosparam set /camera/driver/data_skip 2
+		roslaunch openni2_launch openni2.launch
+
+		// kinect 2
+		roslaunch kinect2_bridge kinect2_bridge.launch depth_method:=cuda reg_method:=opencl publish_tf:=true fps_limit:=10
+
+	// calibrations
+	roslaunch assembly_projection_mapping_teaching assembly_tfs.launch
+
+	// perception
+	roslaunch occupancy_detection occupancy_detection.launch
+	roslaunch assembly_projection_mapping_teaching object_recognition.launch
+
+	// scene management
+	roslaunch assembly_projection_mapping_teaching assembly_manager.launch
+
+
+=======
+// rviz
+rosrun rviz rviz -d $HOME/catkin_ws_projection_mapping_dev/src/assembly_projection_mapping_teaching/rviz/assembly.rviz
+
+
+=====================================
+// last assembly step with projection
+rostopic pub /occupancy_detection/occupancy_detection_last_button geometry_msgs/PointStamped "header:
+  seq: 0
+  stamp:
+    secs: 0
+    nsecs: 0
+  frame_id: ''
+point:
+  x: 0.0
+  y: 0.0
+  z: 0.0"
+
+
+=======================
+// kinect 1 calibration
+source $HOME/catkin_ws_calibration_tools/devel_release/setup.bash
+roslaunch chessboard_pose chessboard_detector_dlp_projector.launch image_mono_topic:=/camera/rgb/image_raw camera_info_topic:=/camera/rgb/camera_info detect_chessboard:=true
+rosrun tf_tree tf_tree_echo chessboard camera_rgb_optical_frame
+
+
+=======================
+// kinect 2 calibration
+source $HOME/catkin_ws_calibration_tools/devel_release/setup.bash
+roslaunch chessboard_pose chessboard_detector_dlp_projector.launch image_mono_topic:=/kinect2/hd/image_color camera_info_topic:=/kinect2/hd/camera_info detect_chessboard:=true
+rosrun tf_tree tf_tree_echo chessboard kinect2_rgb_optical_frame
+
+
+========================
+// projector calibration
+roslaunch assembly_projection_mapping_teaching gazebo.launch world_name:=calibration.world
+roslaunch assembly_projection_mapping_teaching assembly_tfs.launch publish_projector_tunning_tf:=false
+rosrun tf static_transform_publisher 0 0 0 0 0 0 projector_fixed_axis projector_link 10
+
+# Check current calibration:
+rostopic echo /virtual_camera/camera_info
+
+# Publish new camera intrinsics using rqt or (fine tune D and K values):
+rostopic pub /virtual_camera/set_camera_info sensor_msgs/CameraInfo "header:
+  seq: 0
+  stamp: {secs: 0, nsecs: 0}
+  frame_id: 'camera_link'
+height: 1080
+width: 1920
+distortion_model: 'plumb_bob'
+D: [0.0, 0.0, 0.0, 0.0, 0.0]
+K: [2226.0, 0.0, 1027.0, 0.0, 2233.0, -57.0, 0.0, 0.0, 1.0]
+R: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+P: [2226.0, 0.0, 1027.0, -0.0, 0.0, 2233.0, -57.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+binning_x: 0
+binning_y: 0
+roi: {x_offset: 0, y_offset: 0, height: 0, width: 0, do_rectify: false}"
