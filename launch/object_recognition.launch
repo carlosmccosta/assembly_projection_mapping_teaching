@@ -25,12 +25,12 @@
 	<!-- initial pose setup -->
 	<arg name="robot_initial_pose_in_base_to_map" default="true" />
 	<arg name="robot_initial_pose_available" default="false" />
-	<arg name="robot_initial_x" default="0.1" />
-	<arg name="robot_initial_y" default="0.1" />
-	<arg name="robot_initial_z" default="0" />
-	<arg name="robot_initial_roll" default="0" />
-	<arg name="robot_initial_pitch" default="0" />
-	<arg name="robot_initial_yaw" default="0" />
+	<arg name="robot_initial_x" default="0.328650" />
+	<arg name="robot_initial_y" default="0.159283" />
+	<arg name="robot_initial_z" default="-0.001320" />
+	<arg name="robot_initial_roll" default="0.035431" />
+	<arg name="robot_initial_pitch" default="0.062858" />
+	<arg name="robot_initial_yaw" default="0.293638" />
 
 	<!-- tf configurations -->
 	<arg name="publish_initial_pose" default="1" />

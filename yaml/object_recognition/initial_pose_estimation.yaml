@@ -1,13 +1,13 @@
 normal_estimators:
 #    reference_pointcloud:
-#        display_normals: true
+#        display_normals: false
 #        display_occupancy_grid_pointcloud: false
 #        use_filtered_cloud_as_normal_estimation_surface: false
 #        flip_normals_using_occupancy_grid_analysis: true
 #        occupancy_grid_analysis_radius_resolution_percentage: 4.0
 #        normal_estimation_omp:
 #            search_k: 0
-#            search_radius: 0.005
+#            search_radius: 0.02
     ambient_pointcloud:
         compute_normals_when_tracking_pose: false
         compute_normals_when_recovering_pose_tracking: false
@@ -16,7 +16,7 @@ normal_estimators:
         display_normals: false
         normal_estimation_omp:
             search_k: 0
-            search_radius: 0.02
+            search_radius: 0.022
 
 
 #curvature_estimators:
@@ -31,10 +31,10 @@ normal_estimators:
 keypoint_detectors:
     reference_pointcloud:
         sift_3d:
-            min_scale: 0.005
+            min_scale: 0.0027
             number_octaves: 3
             number_scales_per_octave: 4
-            min_contrast: 0.005
+            min_contrast: 0.0027
             sift3d_keypoints_cloud_publish_topic: ''
 #        intrinsic_shape_signature_3d:
 #            salient_radius: 0.025
@@ -51,10 +51,10 @@ keypoint_detectors:
         compute_keypoints_when_recovering_pose_tracking: false
         compute_keypoints_when_estimating_initial_pose: true
         sift_3d:
-            min_scale: 0.005
+            min_scale: 0.0027
             number_octaves: 3
             number_scales_per_octave: 4
-            min_contrast: 0.005
+            min_contrast: 0.0027
             sift3d_keypoints_cloud_publish_topic: 'ambient_keypoints'
 #        intrinsic_shape_signature_3d:
 #            salient_radius: 0.025
@@ -74,7 +74,7 @@ initial_pose_estimators_matchers:
         save_descriptors_in_binary_format : true
         keypoint_descriptors:
             feature_descriptor_k_search: 0
-            feature_descriptor_radius_search: 0.03
+            feature_descriptor_radius_search: 0.022
             fpfh:
                 number_subdivisions_f1: 11
                 number_subdivisions_f2: 11
@@ -94,14 +94,14 @@ initial_pose_estimators_matchers:
 #            esf:
 #                feature_descriptor_radius_search: 0.25
         matchers:
-            max_correspondence_distance: 1.0
+            max_correspondence_distance: 0.03
             max_number_of_registration_iterations: 1000
             sample_consensus_initial_alignment_prerejective:
-                convergence_time_limit_seconds: 10.0
-                similarity_threshold: 0.5
-                inlier_fraction: 0.7
-                number_of_samples: 10
-                correspondence_randomness: 20
+                convergence_time_limit_seconds: 3.0
+                similarity_threshold: 0.1
+                inlier_fraction: 0.9
+                number_of_samples: 20
+                correspondence_randomness: 30
 #            sample_consensus_initial_alignment:
 #                min_sample_distance: 0.5
 #                number_of_samples: 3
@@ -112,10 +112,10 @@ initial_pose_estimators_matchers:
         iterative_closest_point_with_normals:
 #        iterative_closest_point_generalized:
             convergence_time_limit_seconds: 3.0
-            max_correspondence_distance: 1.0
+            max_correspondence_distance: 0.3
             transformation_epsilon: 1e-5
-            euclidean_fitness_epsilon: 1e-5
-            max_number_of_registration_iterations: 300
+            euclidean_fitness_epsilon: 1e-6
+            max_number_of_registration_iterations: 500
             max_number_of_ransac_iterations: 0
             ransac_outlier_rejection_threshold: 0.05
             match_only_keypoints: false

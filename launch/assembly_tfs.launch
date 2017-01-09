@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-	<arg name="publish_projector_tunning_tf" default="true" />
-	<arg name="publish_calibration_pattern_tf" default="false" />
+	<arg name="publish_kinect1_tuning_tf" default="true" />
+	<arg name="publish_kinect2_tuning_tf" default="true" />
+	<arg name="publish_projector_tuning_tf" default="true" />
+	<arg name="publish_calibration_pattern_tf" default="true" />
 	<arg name="publish_chessboard" default="true" />
 
 
@@ -11,13 +13,13 @@
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_map_top_left_z_down" args="0.30735 0 0 0 3.14159265359 0 map chessboard 10" />
 
 	<!-- chessboard corner detection for asus xtion pro live -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard_correction" args="-0.003 -0.001 0.002 -0.008 0.025 0 chessboard kinect1 10" />
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard_correction" args="0.007 0.001 -0.001 0 0.015 0 chessboard kinect1 10" if="$(arg publish_kinect1_tuning_tf)"/>
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard_rgb" args="0.0673698345038507 -0.0936265722215157 -0.5660915833097296 -0.0165943329807895 0.1626035916499612 0.9821469062613837 0.0931244039800966 kinect1 kinect_rgb 10" />
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard" args="-0.045 0 0 0.5 -0.5 0.5 0.5 kinect_rgb camera_link 10" />
 
 	<!-- chessboard corner detection for kinect 2 -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard_correction" args="-0.006 -0.005 0.0 0 -0.01 0.015 chessboard kinect2 10" />
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard" args="0.1752556131775240 0.4409848647680846 -0.4902376582275897 0.1671987169263000 0.0059626024663904 0.0028333613249044 0.9859011149672310 kinect2 kinect2_link 10" />
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard_correction" args="0 0.003 -0.01 -0.01 -0.03 0.015 chessboard kinect2 10" if="$(arg publish_kinect2_tuning_tf)"/>
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard" args="0.4077072725754636 0.3836480867722405 -0.4873289556655107 0.1714582530598716 0.0059144152042086 -0.0120830683048260 0.9850995313219828 kinect2 kinect2_link 10" />
 
 	<!-- camera-projector calibration -->
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_camera_projector" args="0.1495425858446944 -0.1147662341704971 0.7838106147694257 0.9965488742105985 -0.0826601153686833 0.0075895259896155 0.0002138505964745 map projector 10" />
@@ -26,7 +28,7 @@
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_projector_axis" args="0 0 0 1.57079632679 -1.57079632679 0 projector projector_fixed_axis 10" />
 
 	<!-- camera-projector calibration tuning -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_projector_tunning" args="-0.03 -0.05 0.027 0.017 0.0005 -0.164 projector_fixed_axis projector_link 10" if="$(arg publish_projector_tunning_tf)"/>
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_projector_tuning" args="-0.03 -0.05 0.027 0.017 0.0005 -0.164 projector_fixed_axis projector_link 10" if="$(arg publish_projector_tuning_tf)"/>
 
 	<node pkg="chessboard_publisher" type="publisher" name="chessboard_publisher" output="screen" if="$(arg publish_chessboard)">
 		<param name="name" value="chessboard" />
@@ -38,5 +40,5 @@
 
 
 	<!-- ===== scene objects ===== -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_board" args="0.153675 0.10245 -0.0005 0 0 0 map calibration_pattern_link 10" if="$(arg publish_calibration_pattern_tf)"/>
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_board" args="10.153675 0.10245 -0.0005 0 0 0 map calibration_pattern_link 10" if="$(arg publish_calibration_pattern_tf)"/>
 </launch>

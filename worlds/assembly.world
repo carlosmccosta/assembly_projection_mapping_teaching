@@ -2,7 +2,7 @@
 	<world name='default'>
 		<model name="assembled_object">
 			<static>1</static>
-			<pose>0.33 0.16 0 0 0 0.2</pose>
+			<pose>0.328650 0.159283 -0.001320 0.035431 0.062858 0.293638</pose>
 			<link name="assembled_object_link">
 				<visual name="assembled_object_visual">
 					<transparency>0</transparency>

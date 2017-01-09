@@ -4,6 +4,6 @@
 		<arg name="depth_method" default="cuda" />
 		<arg name="reg_method" default="opencl" />
 		<arg name="publish_tf" default="true" />
-		<arg name="fps_limit" default="10" />
+		<arg name="fps_limit" default="3" />
 	</include>
 </launch>

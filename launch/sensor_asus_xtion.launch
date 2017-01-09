@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-	<param name="/camera/driver/data_skip" value="2" />
+	<param name="/camera/driver/data_skip" value="9" />
 	<include file="$(find openni2_launch)/launch/openni2.launch"/>
 </launch>

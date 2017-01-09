@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-		<env name="GAZEBO_RESOURCE_PATH" value='$(find assembly_projection_mapping_teaching)/media:$(optenv GAZEBO_RESOURCE_PATH "")' />
+	<env name="GAZEBO_RESOURCE_PATH" value='$(find assembly_projection_mapping_teaching)/media:$(optenv GAZEBO_RESOURCE_PATH "")' />
 	<arg name="use_gazebo_gui" default="false" />
 	<arg name="world_folder" default="$(find assembly_projection_mapping_teaching)/worlds/" />
 	<arg name="world_name" default="assembly.world" />
 	<arg name="show_image" default="true" />
-	<arg name="publish_calibration_pattern_tf" default="false" />
+	<arg name="publish_calibration_pattern_tf_to_gazebo" default="true" />
 
 	<include file="$(find gazebo_projection_mapping)/launch/gazebo_projection_mapping.launch">
 		<arg name="use_gazebo_gui" default="$(arg use_gazebo_gui)" />
@@ -14,7 +14,7 @@
 		<arg name="show_image" default="$(arg show_image)" />
 	</include>
 
-	<node pkg="gazebo_projection_mapping" type="gpm_tf_to_link_state_node" name="gpm_tf_to_link_state_node_calibration_pattern" respawn="true" clear_params="true" output="screen" if="$(arg publish_calibration_pattern_tf)">
+	<node pkg="gazebo_projection_mapping" type="gpm_tf_to_link_state_node" name="gpm_tf_to_link_state_node_calibration_pattern" respawn="true" clear_params="true" output="screen" if="$(arg publish_calibration_pattern_tf_to_gazebo)">
 		<param name="gazebo_link_name" type="str" value="calibration_pattern_link" />
 		<param name="tf_source_frame" type="str" value="calibration_pattern_link" />
 		<param name="publish_rate" type="double" value="1"/>
