@@ -28,13 +28,20 @@
 	<!-- Run dependencies -->
 	<!-- ################################################################## -->
 
+	<run_depend>chessboard_publisher</run_depend>
+	<run_depend>dynamic_robot_localization</run_depend>
+	<run_depend>kinect2_bridge</run_depend>
 	<run_depend>geometry_msgs</run_depend>
 	<run_depend>gazebo_projection_mapping</run_depend>
 	<run_depend>gazebo_ros_pkgs</run_depend>
+	<run_depend>occupancy_detection</run_depend>
+	<run_depend>openni2_launch</run_depend>
+	<run_depend>pose_to_tf_publisher</run_depend>
 	<run_depend>rosconsole</run_depend>
 	<run_depend>roscpp</run_depend>
 	<run_depend>rostime</run_depend>
 	<run_depend>std_msgs</run_depend>
+	<run_depend>tf</run_depend>
 	<run_depend>tf2_ros</run_depend>
 	<run_depend>xmlrpcpp</run_depend>
 
