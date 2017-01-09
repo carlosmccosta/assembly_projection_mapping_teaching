@@ -3,6 +3,7 @@
 	<arg name="use_gazebo_gui" default="false" />
 	<arg name="show_image" default="true" />
 	<arg name="start_sensors" default="true" />
+	<arg name="start_assembly_manager" default="true" />
 	<arg name="start_object_recognition" default="true" />
 	<arg name="start_occupancy_detection" default="true" />
 	<arg name="show_rviz" default="true" />
@@ -15,9 +16,9 @@
 	</include>
 
 	<include file="$(find assembly_projection_mapping_teaching)/launch/assembly_tfs.launch" if="$(arg publish_tfs)" />
-	<include file="$(find assembly_projection_mapping_teaching)/launch/assembly_manager.launch"/>
+	<include file="$(find assembly_projection_mapping_teaching)/launch/assembly_manager.launch" if="$(arg start_assembly_manager)"/>
 	<include file="$(find assembly_projection_mapping_teaching)/launch/object_recognition.launch" if="$(arg start_object_recognition)"/>
 	<include file="$(find assembly_projection_mapping_teaching)/launch/sensors.launch" if="$(arg start_sensors)"/>
 	<include file="$(find occupancy_detection)/launch/occupancy_detection.launch" if="$(arg start_occupancy_detection)"/>
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find assembly_projection_mapping_teaching)/rviz/assembly.rviz" if="$(arg show_rviz)" respawn="true" clear_params="true" output="screen" />
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find assembly_projection_mapping_teaching)/rviz/assembly.rviz" respawn="true" clear_params="true" output="screen" if="$(arg show_rviz)" />
 </launch>
