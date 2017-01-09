@@ -22,11 +22,11 @@
 	<!-- camera-projector calibration -->
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_camera_projector" args="0.1495425858446944 -0.1147662341704971 0.7838106147694257 0.9965488742105985 -0.0826601153686833 0.0075895259896155 0.0002138505964745 map projector 10" />
 
-	<!-- change from image axis to ros axis convenction -->
+	<!-- change from image axis to ros axis convention -->
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_projector_axis" args="0 0 0 1.57079632679 -1.57079632679 0 projector projector_fixed_axis 10" />
 
-	<!-- camera-projector calibration tunning -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_projector_tunning" args="-0.03 -0.05 0.027 0.017 0.0005 -0.167 projector_fixed_axis projector_link 10" if="$(arg publish_projector_tunning_tf)"/>
+	<!-- camera-projector calibration tuning -->
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_projector_tunning" args="-0.03 -0.05 0.027 0.017 0.0005 -0.164 projector_fixed_axis projector_link 10" if="$(arg publish_projector_tunning_tf)"/>
 
 	<node pkg="chessboard_publisher" type="publisher" name="chessboard_publisher" output="screen" if="$(arg publish_chessboard)">
 		<param name="name" value="chessboard" />

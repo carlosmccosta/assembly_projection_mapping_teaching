@@ -1,0 +1,212 @@
+<sdf version='1.5'>
+	<world name='default'>
+		<model name="calibration_pattern">
+			<static>1</static>
+			<pose>0.153675 0.10245 -0.0005 0 0 0</pose>
+			<link name="calibration_pattern_link">
+				<visual name="visual">
+					<transparency>0</transparency>
+					<cast_shadows>false</cast_shadows>
+					<geometry>
+						<box>
+							<size>0.37565 0.2732 0.001</size>
+						</box>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://calibration_pattern/materials/scripts</uri>
+							<uri>model://calibration_pattern/materials/textures</uri>
+							<name>calibration_pattern</name>
+						</script>
+					</material>
+				</visual>
+				<gravity>0</gravity>
+			</link>
+		</model>
+
+		<model name='projection_area'>
+			<static>1</static>
+			<pose>-0.172 -0.074 0 0 0 0</pose>
+			<model name='top'>
+				<pose>0.35 0.392 0 0 0 0</pose>
+				<link name='link'>
+					<visual name='visual'>
+						<geometry>
+							<plane>
+								<size>0.7 0.001</size>
+							</plane>
+						</geometry>
+						<material>
+							<script>
+								<name>Gazebo/Green</name>
+								<uri>__default__</uri>
+							</script>
+						</material>
+					</visual>
+					<gravity>0</gravity>
+				</link>
+			</model>
+			<model name='bottom'>
+				<pose>0.35 0 0 0 0 0</pose>
+				<link name='link'>
+					<visual name='visual'>
+						<geometry>
+							<plane>
+								<size>0.7 0.001</size>
+							</plane>
+						</geometry>
+						<material>
+							<script>
+								<name>Gazebo/Green</name>
+								<uri>__default__</uri>
+							</script>
+						</material>
+					</visual>
+					<gravity>0</gravity>
+				</link>
+			</model>
+			<model name='left'>
+				<pose>0 0.196 0 0 0 0</pose>
+				<link name='link'>
+					<visual name='visual'>
+						<geometry>
+							<plane>
+								<size>0.001 0.393</size>
+							</plane>
+						</geometry>
+						<material>
+							<script>
+								<name>Gazebo/Green</name>
+								<uri>__default__</uri>
+							</script>
+						</material>
+					</visual>
+					<gravity>0</gravity>
+				</link>
+			</model>
+			<model name='right'>
+				<pose>0.7 0.196 0 0 0 0</pose>
+				<link name='link'>
+					<visual name='visual'>
+						<geometry>
+							<plane>
+								<size>0.001 0.393</size>
+							</plane>
+						</geometry>
+						<material>
+							<script>
+								<name>Gazebo/Green</name>
+								<uri>__default__</uri>
+							</script>
+						</material>
+					</visual>
+					<gravity>0</gravity>
+				</link>
+			</model>
+		</model>
+
+		<model name='camera_projection_mapping'>
+			<static>1</static>
+			<link name='projector_link'>
+				<visual name='projector_link_visual'>
+					<geometry>
+						<box>
+							<size>0.0025 0.05 0.03</size>
+						</box>
+					</geometry>
+					<material>
+						<script>
+							<name>Gazebo/Wood</name>
+							<uri>__default__</uri>
+						</script>
+					</material>
+				</visual>
+				<gravity>0</gravity>
+				<self_collide>0</self_collide>
+				<sensor name='virtual_camera' type='camera'>
+					<camera name='projector_head'>
+						<horizontal_fov>1.15</horizontal_fov>
+						<image>
+							<width>1920</width>
+							<height>1080</height>
+							<format>R8G8B8</format>
+						</image>
+						<clip>
+							<near>0.1</near>
+							<far>10.0</far>
+						</clip>
+						<noise>
+							<type>gaussian</type>
+							<mean>0</mean>
+							<stddev>0</stddev>
+						</noise>
+
+						<lens>
+							<intrinsics>
+								<fx>2226</fx>
+								<fy>2233</fy>
+								<cx>1027</cx>
+								<cy>-57</cy>
+								<s>0.0</s>
+							</intrinsics>
+						</lens>
+					</camera>
+					<visualize>0</visualize>
+					<plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+						<alwaysOn>true</alwaysOn>
+						<updateRate>10</updateRate>
+						<cameraName>virtual_camera</cameraName>
+						<imageTopicName>image_raw</imageTopicName>
+						<cameraInfoTopicName>camera_info</cameraInfoTopicName>
+						<frameName>camera_link</frameName>
+
+						<focalLengthX>2226</focalLengthX>
+						<focalLengthY>2233</focalLengthY>
+						<hackBaseline>0</hackBaseline>
+						<CxPrime>1027</CxPrime>
+						<Cx>1027</Cx>
+						<Cy>-57</Cy>
+
+						<distortionK1>0</distortionK1>
+						<distortionK2>0</distortionK2>
+						<distortionT1>0</distortionT1>
+						<distortionT2>0</distortionT2>
+						<distortionK3>0</distortionK3>
+
+						<robotNamespace>/</robotNamespace>
+					</plugin>
+				</sensor>
+			</link>
+			<static>1</static>
+		</model>
+
+
+		<physics type='ode'>
+			<max_step_size>0.1</max_step_size>
+			<real_time_factor>1</real_time_factor>
+			<real_time_update_rate>10</real_time_update_rate>
+			<max_contacts>0</max_contacts>
+			<ode>
+				<solver>
+					<type>quick</type>
+					<min_step_size>0.1</min_step_size>
+					<iters>1</iters>
+				</solver>
+			</ode>
+		</physics>
+
+		<scene>
+			<ambient>1 1 1 1</ambient>
+			<background>0 0 0 1</background>
+			<shadows>0</shadows>
+		</scene>
+
+
+		<gui fullscreen='0'>
+			<camera name='user_camera'>
+				<pose>0.1 0.1 1 0 1.5707 1.5707</pose>
+				<view_controller>orbit</view_controller>
+			</camera>
+		</gui>
+	</world>
+</sdf>
