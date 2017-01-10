@@ -37,6 +37,7 @@
 	<run_depend>occupancy_detection</run_depend>
 	<run_depend>openni2_launch</run_depend>
 	<run_depend>pose_to_tf_publisher</run_depend>
+	<run_depend>rosbag</run_depend>
 	<run_depend>rosconsole</run_depend>
 	<run_depend>roscpp</run_depend>
 	<run_depend>rostime</run_depend>

@@ -1,13 +1,15 @@
 ===========
 // assembly
-roslaunch assembly_projection_mapping_teaching assembly.launch use_gazebo_gui:=false publish_tfs:=true show_rviz:=true start_sensors:=true
+roslaunch assembly_projection_mapping_teaching assembly.launch use_gazebo_gui:=false publish_tfs:=true show_rviz:=false start_object_recognition:=false start_sensors:=false
 	roslaunch assembly_projection_mapping_teaching sensors.launch
 		// kinect 1 - Asus Xtion Pro Live
-		rosparam set /camera/driver/data_skip 2
-		roslaunch openni2_launch openni2.launch
+		roslaunch assembly_projection_mapping_teaching sensor_asus_xtion.launch
+			rosparam set /camera/driver/data_skip 2
+			roslaunch openni2_launch openni2.launch
 
 		// kinect 2
-		roslaunch kinect2_bridge kinect2_bridge.launch depth_method:=cuda reg_method:=opencl publish_tf:=true fps_limit:=10
+		roslaunch assembly_projection_mapping_teaching sensor_kinect2.launch
+			roslaunch kinect2_bridge kinect2_bridge.launch depth_method:=cuda reg_method:=opencl publish_tf:=true fps_limit:=10
 
 	// calibrations
 	roslaunch assembly_projection_mapping_teaching assembly_tfs.launch

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 	<arg name="yaml_configuration" default="$(find assembly_projection_mapping_teaching)/yaml/assembly.yaml" />
-	<arg name="video_seek_start_position" default="0.115" />
-	<arg name="video_seek_end_position" default="0.18" />
+	<arg name="video_seek_start_position" default="0.11" />
+	<arg name="video_seek_end_position" default="0.185" />
 	<node pkg="assembly_projection_mapping_teaching" type="assembly_manager_node" name="assembly_manager_node" ns="assembly_manager" respawn="true" clear_params="true" output="screen" > <!-- launch-prefix="gdbserver localhost:1337" -->
 		<param name="media_folder_path" type="str" value="$(find assembly_projection_mapping_teaching)/media" />
 		<param name="videos_start_paused" type="bool" value="false" />

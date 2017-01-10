@@ -13,13 +13,13 @@
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_map_top_left_z_down" args="0.30735 0 0 0 3.14159265359 0 map chessboard 10" />
 
 	<!-- chessboard corner detection for asus xtion pro live -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard_correction" args="0.007 0.001 -0.001 0 0.015 0 chessboard kinect1 10" if="$(arg publish_kinect1_tuning_tf)"/>
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard_rgb" args="0.0673698345038507 -0.0936265722215157 -0.5660915833097296 -0.0165943329807895 0.1626035916499612 0.9821469062613837 0.0931244039800966 kinect1 kinect_rgb 10" />
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard_correction" args="0.0055 0.001 -0.001 0 0.015 0 chessboard kinect1 10" if="$(arg publish_kinect1_tuning_tf)"/>
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard_rgb" args="0.0686079641022906 -0.0926029605222331 -0.5661204076905577 -0.0172438080036476 0.1627892368120197 0.9822309467842250 0.0917860699837321 kinect1 kinect_rgb 10" />
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard" args="-0.045 0 0 0.5 -0.5 0.5 0.5 kinect_rgb camera_link 10" />
 
 	<!-- chessboard corner detection for kinect 2 -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard_correction" args="0 0.003 -0.01 -0.01 -0.03 0.015 chessboard kinect2 10" if="$(arg publish_kinect2_tuning_tf)"/>
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard" args="0.4077072725754636 0.3836480867722405 -0.4873289556655107 0.1714582530598716 0.0059144152042086 -0.0120830683048260 0.9850995313219828 kinect2 kinect2_link 10" />
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard_correction" args="-0.004 0.011 -0.01 0 -0.03 0.015 chessboard kinect2 10" if="$(arg publish_kinect2_tuning_tf)"/>
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard" args="0.2787143199791854 0.5054689140948931 -0.6966788661793530 0.1905154922179086 0.0079473857324088 -0.0012991295996905 0.9816511592960462 kinect2 kinect2_link 10" />
 
 	<!-- camera-projector calibration -->
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_camera_projector" args="0.1495425858446944 -0.1147662341704971 0.7838106147694257 0.9965488742105985 -0.0826601153686833 0.0075895259896155 0.0002138505964745 map projector 10" />

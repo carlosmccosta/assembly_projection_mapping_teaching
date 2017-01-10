@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<arg name="kinec1_topics" default="/camera/depth/camera_info /camera/depth/image_raw /camera/rgb/camera_info /camera/rgb/image_raw /camera/depth/points" />
+	<arg name="kinec2_topics" default="/kinect2/hd/camera_info /kinect2/hd/image_color /kinect2/sd/camera_info /kinect2/sd/image_depth /kinect2/sd/points" />
+	<arg name="occupancy_detection_roi_topics" default="/occupancy_detection/dynamic_occupancy_detector_video_seek/roi_marker /occupancy_detection/static_occupancy_detector_first_button/roi_marker /occupancy_detection/static_occupancy_detector_last_button/roi_marker /occupancy_detection/static_occupancy_detector_next_button/roi_marker /occupancy_detection/static_occupancy_detector_previous_button/roi_marker /occupancy_detection/static_occupancy_detector_video_paused/roi_marker" />
+	<arg name="occupancy_detection_point_topics" default="/occupancy_detection/occupancy_detection_first_button /occupancy_detection/occupancy_detection_last_button /occupancy_detection/occupancy_detection_next_button /occupancy_detection/occupancy_detection_previous_button /occupancy_detection/occupancy_detection_video_paused /occupancy_detection/occupancy_detection_video_seek" />
+	<arg name="object_recognition" default="/object_recognition/aligned_pointcloud /object_recognition/aligned_pointcloud_inliers /object_recognition/aligned_pointcloud_outliers /object_recognition/ambient_keypoints /object_recognition/reference_pointcloud_keypoints" />
+	<arg name="gazebo_topics" default="/virtual_camera/camera_info /virtual_camera/image_color" />
+	<arg name="topics" default="/chessboard $(arg kinec1_topics) $(arg kinec2_topics) $(arg occupancy_detection_roi_topics) $(arg occupancy_detection_point_topics) $(arg object_recognition) $(arg gazebo_topics) /tf /tf_static" />
+	<arg name="compress_rosbags" default="1" />
+	<arg name="options" default="--bz2" if="$(arg compress_rosbags)"/>
+	<arg name="options" default="" unless="$(arg compress_rosbags)"/>
+	<arg name="folder" default="$(find assembly_projection_mapping_teaching)/rosbags" />
+	<arg name="filename" default="assembly" />
+	<node pkg="rosbag" type="record" name="rosbag_record" args="$(arg options) -o $(arg folder)/$(arg filename) $(arg topics)" />
+</launch>
+
+<!-- Usage: -->
+<!-- roslaunch assembly_projection_mapping_teaching save_rosbag.launch & disown -->
+<!-- kill -SIGINT `pidof record` -->
