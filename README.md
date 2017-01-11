@@ -4,6 +4,7 @@ This ROS package provides an immersive projection mapping system for interactive
 
 Currently it has assembly instructions for a Mitsubishi M000T20873 starter motor, but is can be easely reconfigured to other tasks (you just need to add the content to the [media](media) folder and change the [yaml/assembly.yaml](yaml/assembly.yaml) file).
 
+
 [![Assisted assembly of a starter motor](http://img.youtube.com/vi/KWiw9Gbkx2I/maxresdefault.jpg)](http://www.youtube.com/watch?v=KWiw9Gbkx2I)
 
 Video 1: Assisted assembly of a starter motor
@@ -19,9 +20,14 @@ Video 2: Immersive natural interaction for assisted assembly operations
 Video 3: Object pose estimation for assisted assembly operations
 
 
+[![Projection mapping for assisted assembly operations](http://img.youtube.com/vi/vfYDPL8DXGY/maxresdefault.jpg)](http://www.youtube.com/watch?v=vfYDPL8DXGY)
+
+Video 4: Projection mapping for assisted assembly operations
+
+
 [![Disassembly of a starter motor](http://img.youtube.com/vi/USEo3qots5g/maxresdefault.jpg)](http://www.youtube.com/watch?v=USEo3qots5g)
 
-Video 4: Disassembly of a starter motor
+Video 5: Disassembly of a starter motor
 
 
 ## Related repositories:
