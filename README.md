@@ -15,7 +15,7 @@ Video 1: Assisted assembly of a starter motor
 Video 2: Immersive natural interaction for assisted assembly operations
 
 
-[![Object pose estimation for assisted assembly operations](http://img.youtube.com/vi/T3LxWRKC4OM/maxresdefault.jpg)](http://www.youtube.com/watch?v=T3LxWRKC4OM)
+[![Object pose estimation for assisted assembly operations](http://img.youtube.com/vi/557vglPW6Ko/maxresdefault.jpg)](http://www.youtube.com/watch?v=557vglPW6Ko)
 
 Video 3: Object pose estimation for assisted assembly operations
 
