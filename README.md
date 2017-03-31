@@ -4,6 +4,11 @@
 
 This ROS package provides an immersive projection mapping system for interactively teaching assembly operations.
 
+This project has the following associated working paper:
+
+[Interactive augmented reality system for teaching complex assembly operations](https://github.com/carlosmccosta/assembly_projection_mapping_teaching_article/releases)
+
+
 Currently it has assembly instructions for a Mitsubishi M000T20873 starter motor, but it can be easily reconfigured to other tasks (you just need to add the content to the [media](media) folder and change the [yaml/assembly.yaml](yaml/assembly.yaml) file).
 
 
