@@ -7,6 +7,7 @@ project(assembly_projection_mapping_teaching)
 #######################################################################################################################
 
 set(${PROJECT_NAME}_CATKIN_COMPONENTS
+    gazebo_msgs
     geometry_msgs
     rosconsole
     roscpp

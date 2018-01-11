@@ -19,7 +19,7 @@ AssemblyManager::AssemblyManager() :
 		video_seek_start_position_(0.0),
 		video_seek_end_position_(1.0),
 		button_highlight_time_sec_(0.5),
-		z_offset_for_hiding_assembled_object_(10.0) {}
+		z_offset_for_hiding_gazebo_models_(10.0) {}
 AssemblyManager::~AssemblyManager() {}
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </constructors-destructor>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -39,17 +39,7 @@ bool AssemblyManager::loadConfigurationFromParameterServer(ros::NodeHandlePtr& _
 	private_node_handle_->param("video_seek_start_position", video_seek_start_position_, 0.0);
 	private_node_handle_->param("video_seek_end_position", video_seek_end_position_, 1.0);
 	private_node_handle_->param("button_highlight_time_sec", button_highlight_time_sec_, 0.5);
-
-	private_node_handle_->param("assembled_object_final_pose/z_offset_for_hidding_assembled_object", z_offset_for_hiding_assembled_object_, 10.0);
-	private_node_handle_->param("assembled_object_final_pose/frame_id", assembled_object_final_pose_.header.frame_id, std::string("map"));
-	private_node_handle_->param("assembled_object_final_pose/child_frame_id", assembled_object_final_pose_.child_frame_id, std::string("assembled_object_link"));
-	private_node_handle_->param("assembled_object_final_pose/x", assembled_object_final_pose_.transform.translation.x, 0.0);
-	private_node_handle_->param("assembled_object_final_pose/y", assembled_object_final_pose_.transform.translation.y, 0.0);
-	private_node_handle_->param("assembled_object_final_pose/z", assembled_object_final_pose_.transform.translation.z, 0.0);
-	private_node_handle_->param("assembled_object_final_pose/qx", assembled_object_final_pose_.transform.rotation.x, 0.0);
-	private_node_handle_->param("assembled_object_final_pose/qy", assembled_object_final_pose_.transform.rotation.y, 0.0);
-	private_node_handle_->param("assembled_object_final_pose/qz", assembled_object_final_pose_.transform.rotation.z, 0.0);
-	private_node_handle_->param("assembled_object_final_pose/qw", assembled_object_final_pose_.transform.rotation.w, 1.0);
+	private_node_handle_->param("z_offset_for_hiding_gazebo_models", z_offset_for_hiding_gazebo_models_, 10.0);
 
 	XmlRpc::XmlRpcValue steps;
 	if (_private_node_handle->getParam(_configuration_namespace, steps) && steps.getType() == XmlRpc::XmlRpcValue::TypeStruct) {
@@ -63,6 +53,26 @@ bool AssemblyManager::loadConfigurationFromParameterServer(ros::NodeHandlePtr& _
 				if (!text_path.empty() && !video_path.empty()) {
 					assembly_text_images_paths_.push_back(media_folder_path_ + "/" + text_path);
 					assembly_video_paths_.push_back(media_folder_path_ + "/" + video_path);
+
+					std::string models_to_show;
+					private_node_handle_->param(_configuration_namespace + step_name + "/gazebo_models_to_show", models_to_show, std::string(""));
+					std::vector<std::string> models_to_show_tokens;
+					splitString(models_to_show, '+', models_to_show_tokens);
+					gazebo_models_to_show_in_single_step_.push_back(models_to_show_tokens);
+
+					std::string models_to_hide;
+					private_node_handle_->param(_configuration_namespace + step_name + "/gazebo_models_to_hide", models_to_hide, std::string(""));
+					std::vector<std::string> models_to_hide_tokens;
+					splitString(models_to_hide, '+', models_to_hide_tokens);
+					gazebo_models_to_hide_in_single_step_.push_back(models_to_hide_tokens);
+
+					std::string frame_id;
+					private_node_handle_->param(_configuration_namespace + step_name + "/tf_offset_to_publish_frame_id", frame_id, std::string(""));
+					tf_offset_to_publish_frame_id_in_single_step_.push_back(frame_id);
+
+					std::string child_frame_id;
+					private_node_handle_->param(_configuration_namespace + step_name + "/tf_offset_to_publish_child_frame_id", child_frame_id, std::string(""));
+					tf_offset_to_publish_child_frame_id_in_single_step_.push_back(child_frame_id);
 				}
 			}
 		}
@@ -73,11 +83,23 @@ bool AssemblyManager::loadConfigurationFromParameterServer(ros::NodeHandlePtr& _
 
 void AssemblyManager::start() {
 	setupPublishers();
+	setupGazeboCommunication();
 	publishStepCounter(assembly_text_images_paths_.size(), publisher_set_third_number_path_, publisher_set_fourth_number_path_);
 	publishCurrentAssemblyStepContent("first", publisher_set_first_button_path_, false);
-	publishAssembledObjectTF(ros::Time::now(), z_offset_for_hiding_assembled_object_);
+	updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[0], -z_offset_for_hiding_gazebo_models_);
+	updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[0], z_offset_for_hiding_gazebo_models_);
+	publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[0], tf_offset_to_publish_child_frame_id_in_single_step_[0], -z_offset_for_hiding_gazebo_models_);
 	startSubscribers();
 	ros::spin();
+}
+
+void AssemblyManager::setupGazeboCommunication() {
+	std::string str;
+	private_node_handle_->param("gazebo_get_model_state_service", str, std::string("/gazebo/get_model_state"));
+	model_state_client_ = node_handle_->serviceClient<gazebo_msgs::GetModelState>(str);
+
+	private_node_handle_->param("gazebo_set_model_state_topic", str, std::string("/gazebo/set_model_state"));
+	model_state_publisher_ = node_handle_->advertise<gazebo_msgs::ModelState>(str, 1, true);
 }
 
 void AssemblyManager::setupPublishers() {
@@ -131,29 +153,40 @@ void AssemblyManager::processVideoSeekMsg(const geometry_msgs::PointStampedConst
 
 void AssemblyManager::processFirstButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ > 0) {
-		if (current_assembly_step_ == assembly_text_images_paths_.size() - 1)
-			publishAssembledObjectTF(_msg->header.stamp, z_offset_for_hiding_assembled_object_);
+		for (int i = current_assembly_step_; i >= 0; --i) {
+			updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[i], z_offset_for_hiding_gazebo_models_);
+			updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[i], -z_offset_for_hiding_gazebo_models_);
+		}
 
+		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], 0);
 		current_assembly_step_ = 0;
+		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
+
 		publishCurrentAssemblyStepContent("first", publisher_set_first_button_path_);
 	}
 }
 
 void AssemblyManager::processPreviousButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ > 0) {
-		if (current_assembly_step_ == assembly_text_images_paths_.size() - 1)
-			publishAssembledObjectTF(_msg->header.stamp, z_offset_for_hiding_assembled_object_);
+		updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[current_assembly_step_], z_offset_for_hiding_gazebo_models_);
+		updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
 
+		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], 0);
 		--current_assembly_step_;
+		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
+
 		publishCurrentAssemblyStepContent("previous", publisher_set_previous_button_path_);
 	}
 }
 
 void AssemblyManager::processNextButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
+		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], 0);
 		++current_assembly_step_;
-		if (current_assembly_step_ == assembly_text_images_paths_.size() - 1)
-			publishAssembledObjectTF(_msg->header.stamp, -z_offset_for_hiding_assembled_object_);
+		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
+
+		updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
+		updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[current_assembly_step_], z_offset_for_hiding_gazebo_models_);
 
 		publishCurrentAssemblyStepContent("next", publisher_set_next_button_path_);
 	}
@@ -161,8 +194,17 @@ void AssemblyManager::processNextButtonMsg(const geometry_msgs::PointStampedCons
 
 void AssemblyManager::processLastButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
-		publishAssembledObjectTF(_msg->header.stamp, -z_offset_for_hiding_assembled_object_);
+		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], 0);
+
+		while (current_assembly_step_ < assembly_text_images_paths_.size()) {
+			updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
+			updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[current_assembly_step_], z_offset_for_hiding_gazebo_models_);
+			++current_assembly_step_;
+		}
+
 		current_assembly_step_ = assembly_text_images_paths_.size() - 1;
+		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
+
 		publishCurrentAssemblyStepContent("last", publisher_set_last_button_path_);
 	}
 }
@@ -230,11 +272,43 @@ void AssemblyManager::publishStepCounter(size_t _number, ros::Publisher& _first_
 	_second_number_publisher.publish(second_number_path);
 }
 
-void AssemblyManager::publishAssembledObjectTF(const ros::Time& _time_stamp, double _z_offset) {
-	assembled_object_final_pose_.header.stamp = _time_stamp;
-	assembled_object_final_pose_.transform.translation.z += _z_offset;
-	transform_broadcaster_.sendTransform(assembled_object_final_pose_);
+void AssemblyManager::updateGazeboModels(const ros::Time& _time_stamp, const std::vector<std::string>& _model_names, double _z_offset) {
+	for (size_t i = 0; i < _model_names.size(); ++i) {
+		gazebo_msgs::GetModelState model_state;
+		model_state.request.model_name = _model_names[i];
+		if (model_state_client_.call(model_state) && model_state.response.success) {
+			gazebo_msgs::ModelState new_model_state;
+			new_model_state.model_name = _model_names[i];
+			new_model_state.pose = model_state.response.pose;
+			new_model_state.pose.position.z += _z_offset;
+			new_model_state.twist = model_state.response.twist;
+			model_state_publisher_.publish(new_model_state);
+		}
+	}
 }
+
+void AssemblyManager::publishStepTF(const ros::Time& _time_stamp, const std::string& _frame_id, const std::string& _child_frame_id, double _z_offset) {
+	if (!_frame_id.empty() && !_child_frame_id.empty()) {
+		geometry_msgs::TransformStamped tf;
+			tf.header.stamp = _time_stamp;
+			tf.header.frame_id = _frame_id;
+			tf.child_frame_id = _child_frame_id;
+			tf.transform.rotation.w = 1;
+			tf.transform.translation.z = _z_offset;
+			transform_broadcaster_.sendTransform(tf);
+	}
+}
+
+void AssemblyManager::splitString(const std::string& _str, char _delimiter,  std::vector<std::string>& _tokens_out) {
+	std::string str(_str);
+	std::replace(str.begin(), str.end(), _delimiter, ' ');
+	std::stringstream ss(str);
+	std::string str_temp;
+	while (ss >> str_temp && !str_temp.empty()) {
+		_tokens_out.push_back(str_temp);
+	}
+}
+
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </member-functions>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 // =============================================================================  </public-section>  ===========================================================================
 

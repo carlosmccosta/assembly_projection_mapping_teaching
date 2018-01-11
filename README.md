@@ -46,13 +46,28 @@ Quick overview of the main installation steps:
 * Install the [catkin-tools build system](http://catkin-tools.readthedocs.io/en/latest/installing.html)
 * Create a [catkin workspace](http://catkin-tools.readthedocs.io/en/latest/quick_start.html) for building all the libraries and executables (a suggest you use [workspace overlays](http://catkin-tools.readthedocs.io/en/latest/mechanics.html#workspace-chaining-extending) for compiling each of the main software modules into different workspaces)
 * Compile my fork of [Gazebo](http://gazebosim.org/):
+  * Read the [compile from source tutorial](http://gazebosim.org/tutorials?tut=install_from_source) and add the osrf ppa
   * Clone into the catkin workspace:
     * [gazebo](https://bitbucket.org/carlosmccosta/gazebo/branch/camera_intrinsics)
     * [sdformat](https://bitbucket.org/carlosmccosta/sdformat/branch/camera_intrinsics)
     * [gazebo_ros_pkgs](https://github.com/carlosmccosta/gazebo_ros_pkgs)
     * [gazebo_projection_mapping](https://github.com/inesc-tec-robotics/gazebo_projection_mapping)
   * Add the package.xml for [gazebo](https://bitbucket.org/scpeters/unix-stuff/raw/master/package_xml/package_gazebo.xml) and [sdformat](https://bitbucket.org/scpeters/unix-stuff/raw/master/package_xml/package_sdformat.xml) given in [this page](http://gazebosim.org/tutorials?tut=install_from_source)
-  * Compile using the [catkin build command](http://catkin-tools.readthedocs.io/en/latest/verbs/catkin_build.html)
+  * Install the following dependencies:
+    * libavdevice-dev
+    * libbullet-dev
+    * libgraphviz-dev
+    * libignition-transport2-dev
+    * libopenal-dev
+    * libprotobuf-dev
+    * libqwt-dev
+    * protobuf-compiler
+    * ruby-ronn
+    * xsltproc
+  * Compile using the [catkin build command](http://catkin-tools.readthedocs.io/en/latest/verbs/catkin_build.html) or the command below:
+  ```
+  catkin build gazebo -csvi --cmake-args -DBUILD_CORE_ONLY=ON -DBUILD_SHARED_LIBS=ON -DUSE_DOUBLE_PRECISION=ON -DENABLE_TESTS_COMPILATION:BOOL=False -DCMAKE_BUILD_TYPE=Release -DENABLE_SSE4=true
+  ```
 * Compile my fork of [PCL](http://pointclouds.org/):
   * Clone into the catkin workspace:
     * [pcl_conversions](https://github.com/ros-perception/pcl_conversions)

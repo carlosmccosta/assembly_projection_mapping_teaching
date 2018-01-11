@@ -18,8 +18,8 @@
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect1_chessboard" args="-0.045 0 0 0.5 -0.5 0.5 0.5 kinect_rgb camera_link 10" />
 
 	<!-- chessboard corner detection for kinect 2 -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard_correction" args="-0.004 0.011 -0.01 0 -0.03 0.015 chessboard kinect2 10" if="$(arg publish_kinect2_tuning_tf)"/>
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard" args="0.2787143199791854 0.5054689140948931 -0.6966788661793530 0.1905154922179086 0.0079473857324088 -0.0012991295996905 0.9816511592960462 kinect2 kinect2_link 10" />
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard_correction" args="0.002 0.002 0 0 0 0 chessboard kinect2 10" if="$(arg publish_kinect2_tuning_tf)"/>
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_kinect2_chessboard" args="0.2750373566105156 0.5065673056486498 -0.6968975636857808 0.1874487871854052 0.0060648010792323 -0.0117892279837550 0.9821849034037008 kinect2 kinect2_link 10" />
 
 	<!-- camera-projector calibration -->
 	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_camera_projector" args="0.1495425858446944 -0.1147662341704971 0.7838106147694257 0.9965488742105985 -0.0826601153686833 0.0075895259896155 0.0002138505964745 map projector 10" />
@@ -40,5 +40,5 @@
 
 
 	<!-- ===== scene objects ===== -->
-	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_board" args="10.153675 0.10245 -0.0005 0 0 0 map calibration_pattern_link 10" if="$(arg publish_calibration_pattern_tf)"/>
+	<node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_board" args="0.153675 0.10245 -0.0005 0 0 0 map calibration_pattern_link 10" if="$(arg publish_calibration_pattern_tf)"/>
 </launch>

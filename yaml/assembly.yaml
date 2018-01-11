@@ -28,6 +28,4 @@ step_09:
 step_10:
     text: 'images/assembly_steps/step_10_inspection.png'
     video: 'videos/assembly_steps/step_10_inspection.mp4'
-assembled_object_final_pose:
-    frame_id: 'assembled_object'
-    child_frame_id: 'assembled_object_link'
+    gazebo_models_to_show: 'assembled_object'

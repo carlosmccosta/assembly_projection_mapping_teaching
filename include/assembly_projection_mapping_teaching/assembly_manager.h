@@ -8,12 +8,15 @@
  */
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <includes>   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#include <algorithm>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <ros/ros.h>
 #include <geometry_msgs/PointStamped.h>
 #include <geometry_msgs/TransformStamped.h>
+#include <gazebo_msgs/GetModelState.h>
+#include <gazebo_msgs/ModelState.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float64.h>
 #include <std_msgs/String.h>
@@ -41,6 +44,7 @@ class AssemblyManager {
 				const std::string& _configuration_namespace = "");
 		virtual void start();
 
+		void setupGazeboCommunication();
 		void setupPublishers();
 		void startSubscribers();
 
@@ -53,7 +57,9 @@ class AssemblyManager {
 
 		void publishCurrentAssemblyStepContent(const std::string& _button_name, ros::Publisher& _image_path_publisher, bool publish_highlighted_button = true);
 		void publishStepCounter(size_t _number, ros::Publisher& _first_number_publisher, ros::Publisher& _second_number_publisher);
-		void publishAssembledObjectTF(const ros::Time& _time_stamp, double _z_offset);
+		void updateGazeboModels(const ros::Time& _time_stamp, const std::vector<std::string>& _model_names, double _z_offset);
+		void publishStepTF(const ros::Time& _time_stamp, const std::string& _frame_id, const std::string& _child_frame_id, double _z_offset);
+		static void splitString(const std::string& _str, char _delimiter,  std::vector<std::string>& _tokens_out);
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </member-functions>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   <gets>   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -67,6 +73,8 @@ class AssemblyManager {
 	protected:
 		ros::NodeHandlePtr node_handle_;
 		ros::NodeHandlePtr private_node_handle_;
+		ros::ServiceClient model_state_client_;
+		ros::Publisher model_state_publisher_;
 		tf2_ros::StaticTransformBroadcaster transform_broadcaster_;
 
 		ros::Subscriber subscriber_occupancy_detection_video_paused_;
@@ -95,11 +103,14 @@ class AssemblyManager {
 		double video_seek_start_position_;
 		double video_seek_end_position_;
 		double button_highlight_time_sec_;
-		double z_offset_for_hiding_assembled_object_;
-		geometry_msgs::TransformStamped assembled_object_final_pose_;
+		double z_offset_for_hiding_gazebo_models_;
 		std::string media_folder_path_;
 		std::vector<std::string> assembly_text_images_paths_;
 		std::vector<std::string> assembly_video_paths_;
+		std::vector< std::vector<std::string> > gazebo_models_to_show_in_single_step_;
+		std::vector< std::vector<std::string> > gazebo_models_to_hide_in_single_step_;
+		std::vector<std::string> tf_offset_to_publish_frame_id_in_single_step_;
+		std::vector<std::string> tf_offset_to_publish_child_frame_id_in_single_step_;
 	// ========================================================================   </protected-section>  ========================================================================
 };
 
