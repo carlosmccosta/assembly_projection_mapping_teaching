@@ -153,20 +153,19 @@ void AssemblyManager::processVideoSeekMsg(const geometry_msgs::PointStampedConst
 
 void AssemblyManager::processFirstButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ > 0) {
-		for (int i = current_assembly_step_; i >= 0; --i) {
-			updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[i], z_offset_for_hiding_gazebo_models_);
-			updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[i], -z_offset_for_hiding_gazebo_models_);
+		for (int i = current_assembly_step_; i > 1; --i) {
+			processPreviousButton(false);
 		}
 
-		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], 0);
-		current_assembly_step_ = 0;
-		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
-
-		publishCurrentAssemblyStepContent("first", publisher_set_first_button_path_);
+		processPreviousButton(true);
 	}
 }
 
 void AssemblyManager::processPreviousButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
+	processPreviousButton(true);
+}
+
+void AssemblyManager::processPreviousButton(bool _publish_step_content) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ > 0) {
 		updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[current_assembly_step_], z_offset_for_hiding_gazebo_models_);
 		updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
@@ -175,11 +174,16 @@ void AssemblyManager::processPreviousButtonMsg(const geometry_msgs::PointStamped
 		--current_assembly_step_;
 		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
 
-		publishCurrentAssemblyStepContent("previous", publisher_set_previous_button_path_);
+		if (_publish_step_content)
+			publishCurrentAssemblyStepContent("previous", publisher_set_previous_button_path_);
 	}
 }
 
 void AssemblyManager::processNextButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
+	processNextButton(true);
+}
+
+void AssemblyManager::processNextButton(bool _publish_step_content) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
 		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], 0);
 		++current_assembly_step_;
@@ -188,25 +192,17 @@ void AssemblyManager::processNextButtonMsg(const geometry_msgs::PointStampedCons
 		updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
 		updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[current_assembly_step_], z_offset_for_hiding_gazebo_models_);
 
-		publishCurrentAssemblyStepContent("next", publisher_set_next_button_path_);
+		if (_publish_step_content)
+			publishCurrentAssemblyStepContent("next", publisher_set_next_button_path_);
 	}
 }
 
 void AssemblyManager::processLastButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
-	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
-		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], 0);
-
-		while (current_assembly_step_ < assembly_text_images_paths_.size()) {
-			updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
-			updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[current_assembly_step_], z_offset_for_hiding_gazebo_models_);
-			++current_assembly_step_;
-		}
-
-		current_assembly_step_ = assembly_text_images_paths_.size() - 1;
-		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
-
-		publishCurrentAssemblyStepContent("last", publisher_set_last_button_path_);
+	while (current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
+		processNextButton(false);
 	}
+
+	processNextButton(true);
 }
 
 void AssemblyManager::publishCurrentAssemblyStepContent(const std::string& _button_name, ros::Publisher& _image_path_publisher, bool publish_highlighted_button) {

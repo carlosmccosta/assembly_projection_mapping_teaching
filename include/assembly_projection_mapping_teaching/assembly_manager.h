@@ -52,7 +52,9 @@ class AssemblyManager {
 		void processVideoSeekMsg(const geometry_msgs::PointStampedConstPtr& _msg);
 		void processFirstButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg);
 		void processPreviousButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg);
+		void processPreviousButton(bool _publish_step_content = true);
 		void processNextButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg);
+		void processNextButton(bool _publish_step_content = true);
 		void processLastButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg);
 
 		void publishCurrentAssemblyStepContent(const std::string& _button_name, ros::Publisher& _image_path_publisher, bool publish_highlighted_button = true);
