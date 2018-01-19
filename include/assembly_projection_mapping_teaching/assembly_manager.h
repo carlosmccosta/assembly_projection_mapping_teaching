@@ -107,6 +107,7 @@ class AssemblyManager {
 		double button_highlight_time_sec_;
 		double z_offset_for_hiding_gazebo_models_;
 		std::string media_folder_path_;
+		std::string media_folder_path_for_user_interface_;
 		std::vector<std::string> assembly_text_images_paths_;
 		std::vector<std::string> assembly_video_paths_;
 		std::vector< std::vector<std::string> > gazebo_models_to_show_in_single_step_;

@@ -29,10 +29,14 @@ bool AssemblyManager::loadConfigurationFromParameterServer(ros::NodeHandlePtr& _
 	private_node_handle_ = _private_node_handle;
 
 	private_node_handle_->param("media_folder_path", media_folder_path_, std::string(""));
+	private_node_handle_->param("media_folder_path_for_user_interface", media_folder_path_for_user_interface_, std::string(""));
 	if (media_folder_path_.empty()) {
 		ROS_FATAL("Missing media folder path!");
 		return false;
 	}
+
+	if (media_folder_path_for_user_interface_.empty())
+		media_folder_path_for_user_interface_ = media_folder_path_;
 
 	private_node_handle_->param("videos_start_paused", video_paused_, false);
 	private_node_handle_->param("video_seek_point_axis", video_seek_point_axis_, std::string("x"));
@@ -208,7 +212,7 @@ void AssemblyManager::processLastButtonMsg(const geometry_msgs::PointStampedCons
 void AssemblyManager::publishCurrentAssemblyStepContent(const std::string& _button_name, ros::Publisher& _image_path_publisher, bool publish_highlighted_button) {
 	if (publish_highlighted_button) {
 		std_msgs::String button_image_path_selected;
-		button_image_path_selected.data = media_folder_path_ + "/images/buttons/" + _button_name + "_selected.png";
+		button_image_path_selected.data = media_folder_path_for_user_interface_ + "/images/buttons/" + _button_name + "_selected.png";
 		_image_path_publisher.publish(button_image_path_selected);
 	}
 
@@ -231,7 +235,7 @@ void AssemblyManager::publishCurrentAssemblyStepContent(const std::string& _butt
 	button_highlight_time_ms.sleep();
 
 	std_msgs::String button_image_path;
-	button_image_path.data = media_folder_path_ + "/images/buttons/" + _button_name + ".png";
+	button_image_path.data = media_folder_path_for_user_interface_ + "/images/buttons/" + _button_name + ".png";
 	_image_path_publisher.publish(button_image_path);
 }
 
@@ -257,13 +261,13 @@ void AssemblyManager::publishStepCounter(size_t _number, ros::Publisher& _first_
 
 	std_msgs::String first_number_path;
 	std::stringstream first_number_path_ss;
-	first_number_path_ss << media_folder_path_ << "/images/numbers/" << first_number << ".png";
+	first_number_path_ss << media_folder_path_for_user_interface_ << "/images/numbers/" << first_number << ".png";
 	first_number_path.data = first_number_path_ss.str();
 	_first_number_publisher.publish(first_number_path);
 
 	std_msgs::String second_number_path;
 	std::stringstream second_number_path_ss;
-	second_number_path_ss << media_folder_path_ << "/images/numbers/" << second_number << ".png";
+	second_number_path_ss << media_folder_path_for_user_interface_ << "/images/numbers/" << second_number << ".png";
 	second_number_path.data = second_number_path_ss.str();
 	_second_number_publisher.publish(second_number_path);
 }
