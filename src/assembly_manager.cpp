@@ -202,7 +202,7 @@ void AssemblyManager::processNextButton(bool _publish_step_content) {
 }
 
 void AssemblyManager::processLastButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
-	while (current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
+	while (current_assembly_step_ < assembly_text_images_paths_.size() - 2) {
 		processNextButton(false);
 	}
 
