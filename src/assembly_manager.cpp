@@ -157,11 +157,11 @@ void AssemblyManager::processVideoSeekMsg(const geometry_msgs::PointStampedConst
 
 void AssemblyManager::processFirstButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ > 0) {
-		for (int i = current_assembly_step_; i > 1; --i) {
+		for (int i = current_assembly_step_; i > 0; --i) {
 			processPreviousButton(false);
 		}
 
-		processPreviousButton(true);
+		publishCurrentAssemblyStepContent("first", publisher_set_first_button_path_);
 	}
 }
 
@@ -202,11 +202,13 @@ void AssemblyManager::processNextButton(bool _publish_step_content) {
 }
 
 void AssemblyManager::processLastButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
-	while (current_assembly_step_ < assembly_text_images_paths_.size() - 2) {
-		processNextButton(false);
-	}
+	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
+		while (current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
+			processNextButton(false);
+		}
 
-	processNextButton(true);
+		publishCurrentAssemblyStepContent("last", publisher_set_last_button_path_);
+	}
 }
 
 void AssemblyManager::publishCurrentAssemblyStepContent(const std::string& _button_name, ros::Publisher& _image_path_publisher, bool publish_highlighted_button) {
