@@ -38,6 +38,10 @@ bool AssemblyManager::loadConfigurationFromParameterServer(ros::NodeHandlePtr& _
 	if (media_folder_path_for_user_interface_.empty())
 		media_folder_path_for_user_interface_ = media_folder_path_;
 
+	private_node_handle_->param("gazebo_namespace", gazebo_namespace_, std::string("/gazebo"));
+	private_node_handle_->param("gazebo_user_interface_namespace", gazebo_user_interface_namespace_, std::string("/gazebo_projection_mapping"));
+	private_node_handle_->param("occupancy_detection_namespace", occupancy_detection_namespace_, std::string("/occupancy_detection"));
+
 	private_node_handle_->param("videos_start_paused", video_paused_, false);
 	private_node_handle_->param("video_seek_point_axis", video_seek_point_axis_, std::string("x"));
 	private_node_handle_->param("video_seek_start_position", video_seek_start_position_, 0.0);
@@ -99,35 +103,36 @@ void AssemblyManager::start() {
 
 void AssemblyManager::setupGazeboCommunication() {
 	std::string str;
-	private_node_handle_->param("gazebo_get_model_state_service", str, std::string("/gazebo/get_model_state"));
+	private_node_handle_->param("gazebo_get_model_state_service", str, std::string(gazebo_namespace_ + "/get_model_state"));
 	model_state_client_ = node_handle_->serviceClient<gazebo_msgs::GetModelState>(str);
 
-	private_node_handle_->param("gazebo_set_model_state_topic", str, std::string("/gazebo/set_model_state"));
+	private_node_handle_->param("gazebo_set_model_state_topic", str, std::string(gazebo_namespace_ + "/set_model_state"));
 	model_state_publisher_ = node_handle_->advertise<gazebo_msgs::ModelState>(str, 1, true);
 }
 
 void AssemblyManager::setupPublishers() {
-	publisher_set_text_path_			= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/text/set_image_path", 1, true);
-	publisher_set_video_path_ 			= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/video/set_video_path", 1, true);
-	publisher_set_video_seek_ 			= node_handle_->advertise<std_msgs::Float64>("/gazebo_projecion_mapping/video/set_video_seek", 1, true);
-	publisher_set_video_paused_ 		= node_handle_->advertise<std_msgs::Bool>("/gazebo_projecion_mapping/video/set_video_paused", 1, true);
-	publisher_set_first_button_path_ 	= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/first_button/set_image_path", 1, true);
-	publisher_set_previous_button_path_ = node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/previous_button/set_image_path", 1, true);
-	publisher_set_next_button_path_ 	= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/next_button/set_image_path", 1, true);
-	publisher_set_last_button_path_ 	= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/last_button/set_image_path", 1, true);
-	publisher_set_first_number_path_ 	= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/first_number/set_image_path", 1, true);
-	publisher_set_second_number_path_ 	= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/second_number/set_image_path", 1, true);
-	publisher_set_third_number_path_ 	= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/third_number/set_image_path", 1, true);
-	publisher_set_fourth_number_path_ 	= node_handle_->advertise<std_msgs::String>("/gazebo_projecion_mapping/fourth_number/set_image_path", 1, true);
+	publisher_current_step_				= node_handle_->advertise<std_msgs::Int32>("current_step", 1, true);
+	publisher_set_text_path_			= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/text/set_image_path", 1, true);
+	publisher_set_video_path_ 			= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/video/set_video_path", 1, true);
+	publisher_set_video_seek_ 			= node_handle_->advertise<std_msgs::Float64>(gazebo_user_interface_namespace_ + "/video/set_video_seek", 1, true);
+	publisher_set_video_paused_ 		= node_handle_->advertise<std_msgs::Bool>(gazebo_user_interface_namespace_ + "/video/set_video_paused", 1, true);
+	publisher_set_first_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/first_button/set_image_path", 1, true);
+	publisher_set_previous_button_path_ = node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/previous_button/set_image_path", 1, true);
+	publisher_set_next_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/next_button/set_image_path", 1, true);
+	publisher_set_last_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/last_button/set_image_path", 1, true);
+	publisher_set_first_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/first_number/set_image_path", 1, true);
+	publisher_set_second_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/second_number/set_image_path", 1, true);
+	publisher_set_third_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/third_number/set_image_path", 1, true);
+	publisher_set_fourth_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/fourth_number/set_image_path", 1, true);
 }
 
 void AssemblyManager::startSubscribers() {
-	subscriber_occupancy_detection_video_paused_ 	= node_handle_->subscribe("/occupancy_detection/occupancy_detection_video_paused", 1, &AssemblyManager::processVideoPausedMsg, this);
-	subscriber_occupancy_detection_video_seek_ 		= node_handle_->subscribe("/occupancy_detection/occupancy_detection_video_seek", 1, &AssemblyManager::processVideoSeekMsg, this);
-	subscriber_occupancy_detection_first_button_ 	= node_handle_->subscribe("/occupancy_detection/occupancy_detection_first_button", 1, &AssemblyManager::processFirstButtonMsg, this);
-	subscriber_occupancy_detection_previous_button_ = node_handle_->subscribe("/occupancy_detection/occupancy_detection_previous_button", 1, &AssemblyManager::processPreviousButtonMsg, this);
-	subscriber_occupancy_detection_next_button_ 	= node_handle_->subscribe("/occupancy_detection/occupancy_detection_next_button", 1, &AssemblyManager::processNextButtonMsg, this);
-	subscriber_occupancy_detection_last_button_ 	= node_handle_->subscribe("/occupancy_detection/occupancy_detection_last_button", 1, &AssemblyManager::processLastButtonMsg, this);
+	subscriber_occupancy_detection_video_paused_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_video_paused", 1, &AssemblyManager::processVideoPausedMsg, this);
+	subscriber_occupancy_detection_video_seek_ 		= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_video_seek", 1, &AssemblyManager::processVideoSeekMsg, this);
+	subscriber_occupancy_detection_first_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_first_button", 1, &AssemblyManager::processFirstButtonMsg, this);
+	subscriber_occupancy_detection_previous_button_ = node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_previous_button", 1, &AssemblyManager::processPreviousButtonMsg, this);
+	subscriber_occupancy_detection_next_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_next_button", 1, &AssemblyManager::processNextButtonMsg, this);
+	subscriber_occupancy_detection_last_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_last_button", 1, &AssemblyManager::processLastButtonMsg, this);
 }
 
 void AssemblyManager::processVideoPausedMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
@@ -219,6 +224,10 @@ void AssemblyManager::publishCurrentAssemblyStepContent(const std::string& _butt
 	}
 
 	publishStepCounter(current_assembly_step_ + 1, publisher_set_first_number_path_, publisher_set_second_number_path_);
+
+	std_msgs::Int32 current_step;
+	current_step.data = current_assembly_step_ + 1;
+	publisher_current_step_.publish(current_step);
 
 	std_msgs::String text_image_path;
 	text_image_path.data = assembly_text_images_paths_[current_assembly_step_];

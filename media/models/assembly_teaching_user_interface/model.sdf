@@ -22,7 +22,7 @@
               </script>
             </material>
             <plugin name="frame_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/frame</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/frame</robotNamespace>
               <height>1647</height>
               <width>2173</width>
               <defaultImagePath>file://images/assembly_frame.png</defaultImagePath>
@@ -52,7 +52,7 @@
               </script>
             </material>
             <plugin name="text_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/text</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/text</robotNamespace>
               <height>1647</height>
               <width>2173</width>
               <defaultImagePath>file://images/assembly_text.png</defaultImagePath>
@@ -82,7 +82,7 @@
               </script>
             </material>
             <plugin name="video_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/video</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/video</robotNamespace>
               <height>720</height>
               <width>1280</width>
               <defaultVideoPath>file://videos/mass_effect.mp4</defaultVideoPath>
@@ -112,7 +112,7 @@
               </script>
             </material>
             <plugin name="first_button_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/first_button</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/first_button</robotNamespace>
               <height>640</height>
               <width>640</width>
               <defaultImagePath>file://images/buttons/first.png</defaultImagePath>
@@ -142,7 +142,7 @@
               </script>
             </material>
             <plugin name="first_button_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/previous_button</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/previous_button</robotNamespace>
               <height>640</height>
               <width>640</width>
               <defaultImagePath>file://images/buttons/previous.png</defaultImagePath>
@@ -172,7 +172,7 @@
               </script>
             </material>
             <plugin name="next_button_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/next_button</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/next_button</robotNamespace>
               <height>640</height>
               <width>640</width>
               <defaultImagePath>file://images/buttons/next.png</defaultImagePath>
@@ -202,7 +202,7 @@
               </script>
             </material>
             <plugin name="last_button_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/last_button</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/last_button</robotNamespace>
               <height>640</height>
               <width>640</width>
               <defaultImagePath>file://images/buttons/last.png</defaultImagePath>
@@ -232,7 +232,7 @@
               </script>
             </material>
             <plugin name="first_number_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/first_number</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/first_number</robotNamespace>
               <height>55</height>
               <width>64</width>
               <defaultImagePath>file://images/numbers/0.png</defaultImagePath>
@@ -262,7 +262,7 @@
               </script>
             </material>
             <plugin name="second_number_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/second_number</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/second_number</robotNamespace>
               <height>55</height>
               <width>64</width>
               <defaultImagePath>file://images/numbers/0.png</defaultImagePath>
@@ -292,7 +292,7 @@
               </script>
             </material>
             <plugin name="third_number_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/third_number</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/third_number</robotNamespace>
               <height>55</height>
               <width>64</width>
               <defaultImagePath>file://images/numbers/0.png</defaultImagePath>
@@ -322,7 +322,7 @@
               </script>
             </material>
             <plugin name="fourth_number_plugin" filename="libgazebo_ros_video.so">
-              <robotNamespace>gazebo_projecion_mapping/fourth_number</robotNamespace>
+              <robotNamespace>gazebo_projection_mapping/fourth_number</robotNamespace>
               <height>55</height>
               <width>64</width>
               <defaultImagePath>file://images/numbers/0.png</defaultImagePath>

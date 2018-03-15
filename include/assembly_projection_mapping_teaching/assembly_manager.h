@@ -19,6 +19,7 @@
 #include <gazebo_msgs/ModelState.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float64.h>
+#include <std_msgs/Int32.h>
 #include <std_msgs/String.h>
 #include <tf2_ros/static_transform_broadcaster.h>
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </includes>   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -86,6 +87,7 @@ class AssemblyManager {
 		ros::Subscriber subscriber_occupancy_detection_next_button_;
 		ros::Subscriber subscriber_occupancy_detection_last_button_;
 
+		ros::Publisher publisher_current_step_;
 		ros::Publisher publisher_set_text_path_;
 		ros::Publisher publisher_set_video_path_;
 		ros::Publisher publisher_set_video_seek_;
@@ -108,6 +110,9 @@ class AssemblyManager {
 		double z_offset_for_hiding_gazebo_models_;
 		std::string media_folder_path_;
 		std::string media_folder_path_for_user_interface_;
+		std::string gazebo_namespace_;
+		std::string gazebo_user_interface_namespace_;
+		std::string occupancy_detection_namespace_;
 		std::vector<std::string> assembly_text_images_paths_;
 		std::vector<std::string> assembly_video_paths_;
 		std::vector< std::vector<std::string> > gazebo_models_to_show_in_single_step_;
