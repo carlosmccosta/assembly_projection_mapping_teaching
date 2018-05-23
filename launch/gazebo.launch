@@ -8,6 +8,8 @@
 	<arg name="publish_calibration_pattern_tf_to_gazebo" default="true" />
 
 	<include file="$(find gazebo_projection_mapping)/launch/gazebo_projection_mapping.launch">
+		<arg name="additional_gazebo_resource_paths" default="$(find assembly_projection_mapping_teaching)/media" />
+		<arg name="additional_gazebo_model_paths" default="$(find assembly_projection_mapping_teaching)/media/models" />
 		<arg name="use_gazebo_gui" default="$(arg use_gazebo_gui)" />
 		<arg name="world_folder" default="$(arg world_folder)" />
 		<arg name="world_name" default="$(arg world_name)" />

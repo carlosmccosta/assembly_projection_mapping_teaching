@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <model name="calibration_pattern">
+    <static>true</static>
+    <link name="link">
+      <pose>0.153675 0.10245 0 0 0 0</pose>
+      <visual name="visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <box>
+            <size>0.37565 0.2732 0.001</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://calibration_pattern/materials/scripts</uri>
+            <uri>model://calibration_pattern/materials/textures</uri>
+            <name>calibration_pattern</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

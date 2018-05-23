@@ -86,7 +86,7 @@
               <height>720</height>
               <width>1280</width>
               <defaultVideoPath>file://videos/mass_effect.mp4</defaultVideoPath>
-              <videoFps>50</videoFps>
+              <videoFps>25</videoFps>
             </plugin>
           </visual>
           <gravity>0</gravity>
