@@ -49,14 +49,21 @@ class AssemblyManager {
 		void setupPublishers();
 		void startSubscribers();
 
+		void processCommand(const std_msgs::StringConstPtr _msg);
+		void publishStatus(const std::string& _status);
 		void processVideoPausedMsg(const geometry_msgs::PointStampedConstPtr& _msg);
+		void processVideoPaused(bool _flip_state);
 		void processVideoSeekMsg(const geometry_msgs::PointStampedConstPtr& _msg);
 		void processFirstButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg);
+		void processFirstButton();
 		void processPreviousButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg);
 		void processPreviousButton(bool _publish_step_content = true);
 		void processNextButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg);
 		void processNextButton(bool _publish_step_content = true);
 		void processLastButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg);
+		void processLastButton();
+		void processMoveToStepMsg(const std_msgs::Int32ConstPtr _msg);
+		void processMoveToStep(size_t _step_number);
 
 		void publishCurrentAssemblyStepContent(const std::string& _button_name, ros::Publisher& _image_path_publisher, bool publish_highlighted_button = true);
 		void publishStepCounter(size_t _number, ros::Publisher& _first_number_publisher, ros::Publisher& _second_number_publisher);
@@ -80,6 +87,8 @@ class AssemblyManager {
 		ros::Publisher model_state_publisher_;
 		tf2_ros::StaticTransformBroadcaster transform_broadcaster_;
 
+		ros::Subscriber subscriber_command_;
+		ros::Subscriber subscriber_step_;
 		ros::Subscriber subscriber_occupancy_detection_video_paused_;
 		ros::Subscriber subscriber_occupancy_detection_video_seek_;
 		ros::Subscriber subscriber_occupancy_detection_first_button_;
@@ -88,6 +97,7 @@ class AssemblyManager {
 		ros::Subscriber subscriber_occupancy_detection_last_button_;
 
 		ros::Publisher publisher_current_step_;
+		ros::Publisher publisher_status_;
 		ros::Publisher publisher_set_text_path_;
 		ros::Publisher publisher_set_video_path_;
 		ros::Publisher publisher_set_video_seek_;

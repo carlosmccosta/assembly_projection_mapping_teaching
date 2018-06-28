@@ -111,32 +111,78 @@ void AssemblyManager::setupGazeboCommunication() {
 }
 
 void AssemblyManager::setupPublishers() {
-	publisher_current_step_				= node_handle_->advertise<std_msgs::Int32>("current_step", 1, true);
-	publisher_set_text_path_			= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/text/set_image_path", 1, true);
-	publisher_set_video_path_ 			= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/video/set_video_path", 1, true);
-	publisher_set_video_seek_ 			= node_handle_->advertise<std_msgs::Float64>(gazebo_user_interface_namespace_ + "/video/set_video_seek", 1, true);
-	publisher_set_video_paused_ 		= node_handle_->advertise<std_msgs::Bool>(gazebo_user_interface_namespace_ + "/video/set_video_paused", 1, true);
-	publisher_set_first_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/first_button/set_image_path", 1, true);
-	publisher_set_previous_button_path_ = node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/previous_button/set_image_path", 1, true);
-	publisher_set_next_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/next_button/set_image_path", 1, true);
-	publisher_set_last_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/last_button/set_image_path", 1, true);
-	publisher_set_first_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/first_number/set_image_path", 1, true);
-	publisher_set_second_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/second_number/set_image_path", 1, true);
-	publisher_set_third_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/third_number/set_image_path", 1, true);
-	publisher_set_fourth_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/fourth_number/set_image_path", 1, true);
+	publisher_current_step_				= node_handle_->advertise<std_msgs::Int32>("current_step", 5, true);
+	publisher_status_					= node_handle_->advertise<std_msgs::String>("status", 5, true);
+	publisher_set_text_path_			= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/text/set_image_path", 5, true);
+	publisher_set_video_path_ 			= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/video/set_video_path", 5, true);
+	publisher_set_video_seek_ 			= node_handle_->advertise<std_msgs::Float64>(gazebo_user_interface_namespace_ + "/video/set_video_seek", 5, true);
+	publisher_set_video_paused_ 		= node_handle_->advertise<std_msgs::Bool>(gazebo_user_interface_namespace_ + "/video/set_video_paused", 5, true);
+	publisher_set_first_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/first_button/set_image_path", 5, true);
+	publisher_set_previous_button_path_ = node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/previous_button/set_image_path", 5, true);
+	publisher_set_next_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/next_button/set_image_path", 5, true);
+	publisher_set_last_button_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/last_button/set_image_path", 5, true);
+	publisher_set_first_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/first_number/set_image_path", 5, true);
+	publisher_set_second_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/second_number/set_image_path", 5, true);
+	publisher_set_third_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/third_number/set_image_path", 5, true);
+	publisher_set_fourth_number_path_ 	= node_handle_->advertise<std_msgs::String>(gazebo_user_interface_namespace_ + "/fourth_number/set_image_path", 5, true);
 }
 
 void AssemblyManager::startSubscribers() {
-	subscriber_occupancy_detection_video_paused_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_video_paused", 1, &AssemblyManager::processVideoPausedMsg, this);
-	subscriber_occupancy_detection_video_seek_ 		= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_video_seek", 1, &AssemblyManager::processVideoSeekMsg, this);
-	subscriber_occupancy_detection_first_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_first_button", 1, &AssemblyManager::processFirstButtonMsg, this);
-	subscriber_occupancy_detection_previous_button_ = node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_previous_button", 1, &AssemblyManager::processPreviousButtonMsg, this);
-	subscriber_occupancy_detection_next_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_next_button", 1, &AssemblyManager::processNextButtonMsg, this);
-	subscriber_occupancy_detection_last_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_last_button", 1, &AssemblyManager::processLastButtonMsg, this);
+	subscriber_command_ 							= node_handle_->subscribe("command", 5, &AssemblyManager::processCommand, this);
+	subscriber_step_								= node_handle_->subscribe("change_step", 5, &AssemblyManager::processMoveToStepMsg, this);
+	subscriber_occupancy_detection_video_paused_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_video_paused", 5, &AssemblyManager::processVideoPausedMsg, this);
+	subscriber_occupancy_detection_video_seek_ 		= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_video_seek", 5, &AssemblyManager::processVideoSeekMsg, this);
+	subscriber_occupancy_detection_first_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_first_button", 5, &AssemblyManager::processFirstButtonMsg, this);
+	subscriber_occupancy_detection_previous_button_ = node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_previous_button", 5, &AssemblyManager::processPreviousButtonMsg, this);
+	subscriber_occupancy_detection_next_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_next_button", 5, &AssemblyManager::processNextButtonMsg, this);
+	subscriber_occupancy_detection_last_button_ 	= node_handle_->subscribe(occupancy_detection_namespace_ + "/occupancy_detection_last_button", 5, &AssemblyManager::processLastButtonMsg, this);
+}
+
+void AssemblyManager::processCommand(const std_msgs::StringConstPtr _msg) {
+	if (_msg->data == "next") {
+		processNextButton(true);
+	} else if (_msg->data == "previous") {
+		processPreviousButton(true);
+	} else if (_msg->data == "first") {
+		processFirstButton();
+	} else if (_msg->data == "last") {
+		processLastButton();
+	} else if (_msg->data == "play") {
+		video_paused_ = false;
+		processVideoPaused(false);
+	} else if (_msg->data == "pause") {
+		video_paused_ = true;
+		processVideoPaused(false);
+	} else {
+		if (_msg->data.find("step: ") != std::string::npos) {
+			std::stringstream ss(_msg->data);
+			std::string tag;
+			size_t step;
+			if (ss >> tag && ss >> step) {
+				processMoveToStep(step);
+			}
+		}
+	}
+}
+
+void AssemblyManager::publishStatus(const std::string& _status) {
+	std_msgs::String status;
+	status.data = _status;
+	publisher_status_.publish(status);
 }
 
 void AssemblyManager::processVideoPausedMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
-	video_paused_ = !video_paused_;
+	processVideoPaused(true);
+}
+
+void AssemblyManager::processVideoPaused(bool _flip_state) {
+	if (_flip_state) video_paused_ = !video_paused_;
+
+	if (video_paused_)
+		publishStatus("paused");
+	else
+		publishStatus("running");
+
 	std_msgs::Bool msg_to_publish;
 	msg_to_publish.data = video_paused_;
 	publisher_set_video_paused_.publish(msg_to_publish);
@@ -157,16 +203,23 @@ void AssemblyManager::processVideoSeekMsg(const geometry_msgs::PointStampedConst
 		std_msgs::Float64 msg_to_publish;
 		msg_to_publish.data = video_position_seek / video_seek_length;
 		publisher_set_video_seek_.publish(msg_to_publish);
+		publishStatus("seek_video: " + std::to_string(msg_to_publish.data));
 	}
 }
 
 void AssemblyManager::processFirstButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
+	processFirstButton();
+}
+
+void AssemblyManager::processFirstButton() {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ > 0) {
 		for (int i = current_assembly_step_; i > 0; --i) {
 			processPreviousButton(false);
 		}
 
 		publishCurrentAssemblyStepContent("first", publisher_set_first_button_path_);
+		publishStatus("first_step");
+		publishStatus("step_number: 1");
 	}
 }
 
@@ -183,8 +236,16 @@ void AssemblyManager::processPreviousButton(bool _publish_step_content) {
 		--current_assembly_step_;
 		publishStepTF(ros::Time::now(), tf_offset_to_publish_frame_id_in_single_step_[current_assembly_step_], tf_offset_to_publish_child_frame_id_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
 
-		if (_publish_step_content)
+		if (_publish_step_content) {
 			publishCurrentAssemblyStepContent("previous", publisher_set_previous_button_path_);
+
+			publishStatus("previous_step");
+			if (current_assembly_step_ == 0) {
+				publishStatus("first_step");
+			}
+
+			publishStatus("step_number: " + std::to_string(current_assembly_step_ + 1));
+		}
 	}
 }
 
@@ -201,18 +262,64 @@ void AssemblyManager::processNextButton(bool _publish_step_content) {
 		updateGazeboModels(ros::Time::now(), gazebo_models_to_show_in_single_step_[current_assembly_step_], -z_offset_for_hiding_gazebo_models_);
 		updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[current_assembly_step_], z_offset_for_hiding_gazebo_models_);
 
-		if (_publish_step_content)
-			publishCurrentAssemblyStepContent("next", publisher_set_next_button_path_);
+		if (_publish_step_content) {
+			publishCurrentAssemblyStepContent("next_step", publisher_set_next_button_path_);
+
+			publishStatus("next_step");
+			if (current_assembly_step_ == assembly_text_images_paths_.size() - 1) {
+				publishStatus("last_step");
+			}
+
+			publishStatus("step_number: " + std::to_string(current_assembly_step_ + 1));
+		}
 	}
 }
 
 void AssemblyManager::processLastButtonMsg(const geometry_msgs::PointStampedConstPtr& _msg) {
+	processLastButton();
+}
+
+void AssemblyManager::processLastButton() {
 	if (assembly_text_images_paths_.size() > 0 && current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
 		while (current_assembly_step_ < assembly_text_images_paths_.size() - 1) {
 			processNextButton(false);
 		}
 
-		publishCurrentAssemblyStepContent("last", publisher_set_last_button_path_);
+		publishStatus("last_step");
+		publishStatus("step_number: " + std::to_string(current_assembly_step_ + 1));
+
+		publishCurrentAssemblyStepContent("last_step", publisher_set_last_button_path_);
+	}
+}
+
+
+void AssemblyManager::processMoveToStepMsg(const std_msgs::Int32ConstPtr _msg) {
+	processMoveToStep(_msg->data);
+}
+
+void AssemblyManager::processMoveToStep(size_t _step_number) {
+	if (_step_number > 0 && _step_number <= assembly_text_images_paths_.size()) {
+		--_step_number;
+		if (_step_number != current_assembly_step_) {
+			publishStatus("move_to_step");
+			if (_step_number == 0) {
+				processFirstButton();
+			} else if (_step_number == assembly_text_images_paths_.size() - 1) {
+				processLastButton();
+			} else {
+				if (_step_number > current_assembly_step_) {
+					while (_step_number != (current_assembly_step_ + 1)) {
+						processNextButton(false);
+					}
+					processNextButton(true);
+				} else {
+					while (_step_number != (current_assembly_step_ - 1)) {
+						processPreviousButton(false);
+					}
+					processPreviousButton(true);
+				}
+			}
+		}
 	}
 }
 
