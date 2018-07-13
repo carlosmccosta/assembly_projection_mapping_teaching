@@ -139,18 +139,18 @@ void AssemblyManager::startSubscribers() {
 }
 
 void AssemblyManager::processCommand(const std_msgs::StringConstPtr _msg) {
-	if (_msg->data == "next") {
+	if (_msg->data == "next_step") {
 		processNextButton(true);
-	} else if (_msg->data == "previous") {
+	} else if (_msg->data == "previous_step") {
 		processPreviousButton(true);
-	} else if (_msg->data == "first") {
+	} else if (_msg->data == "first_step") {
 		processFirstButton();
-	} else if (_msg->data == "last") {
+	} else if (_msg->data == "last_step") {
 		processLastButton();
-	} else if (_msg->data == "play") {
+	} else if (_msg->data == "play_video") {
 		video_paused_ = false;
 		processVideoPaused(false);
-	} else if (_msg->data == "pause") {
+	} else if (_msg->data == "pause_video") {
 		video_paused_ = true;
 		processVideoPaused(false);
 	} else {
@@ -263,7 +263,7 @@ void AssemblyManager::processNextButton(bool _publish_step_content) {
 		updateGazeboModels(ros::Time::now(), gazebo_models_to_hide_in_single_step_[current_assembly_step_], z_offset_for_hiding_gazebo_models_);
 
 		if (_publish_step_content) {
-			publishCurrentAssemblyStepContent("next_step", publisher_set_next_button_path_);
+			publishCurrentAssemblyStepContent("next", publisher_set_next_button_path_);
 
 			publishStatus("next_step");
 			if (current_assembly_step_ == assembly_text_images_paths_.size() - 1) {
@@ -288,7 +288,7 @@ void AssemblyManager::processLastButton() {
 		publishStatus("last_step");
 		publishStatus("step_number: " + std::to_string(current_assembly_step_ + 1));
 
-		publishCurrentAssemblyStepContent("last_step", publisher_set_last_button_path_);
+		publishCurrentAssemblyStepContent("last", publisher_set_last_button_path_);
 	}
 }
 
