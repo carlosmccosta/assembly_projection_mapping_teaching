@@ -35,7 +35,7 @@
 	<run_depend>geometry_msgs</run_depend>
 	<run_depend>gazebo_msgs</run_depend>
 	<run_depend>gazebo_projection_mapping</run_depend>
-	<run_depend>gazebo_ros_pkgs</run_depend>
+	<run_depend>gazebo_ros</run_depend>
 	<run_depend>occupancy_detection</run_depend>
 	<run_depend>openni2_launch</run_depend>
 	<run_depend>pose_to_tf_publisher</run_depend>
