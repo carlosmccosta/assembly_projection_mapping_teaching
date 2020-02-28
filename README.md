@@ -4,9 +4,9 @@
 
 This ROS package provides an immersive projection mapping system for interactively teaching assembly operations.
 
-This project has the following associated working paper:
+This project has the following associated paper:
 
-[Interactive augmented reality system for teaching complex assembly operations](https://github.com/carlosmccosta/assembly_projection_mapping_teaching_article/releases)
+[Modeling of video projectors in OpenGL for implementing a spatial augmented reality teaching system for assembly operations](https://www.researchgate.net/publication/332083524_Modeling_of_video_projectors_in_OpenGL_for_implementing_a_spatial_augmented_reality_teaching_system_for_assembly_operations)
 
 
 Currently it has assembly instructions for a Mitsubishi M000T20873 starter motor, but it can be easily reconfigured to other tasks (you just need to add the content to the [media](media) folder and change the [yaml/assembly.yaml](yaml/assembly.yaml) file).
@@ -42,54 +42,28 @@ Video 5: Disassembly of a starter motor
 
 Quick overview of the main installation steps:
 
-* Install [ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)
-* Install the [catkin-tools build system](http://catkin-tools.readthedocs.io/en/latest/installing.html)
-* Create a [catkin workspace](http://catkin-tools.readthedocs.io/en/latest/quick_start.html) for building all the libraries and executables (a suggest you use [workspace overlays](http://catkin-tools.readthedocs.io/en/latest/mechanics.html#workspace-chaining-extending) for compiling each of the main software modules into different workspaces)
-* Compile my fork of [Gazebo](http://gazebosim.org/):
-  * Read the [compile from source tutorial](http://gazebosim.org/tutorials?tut=install_from_source) and add the osrf ppa
-  * Clone into the catkin workspace:
-    * [gazebo](https://bitbucket.org/carlosmccosta/gazebo/branch/camera_intrinsics)
-    * [sdformat](https://bitbucket.org/carlosmccosta/sdformat/branch/camera_intrinsics)
-    * [gazebo_ros_pkgs](https://github.com/carlosmccosta/gazebo_ros_pkgs)
-    * [gazebo_projection_mapping](https://github.com/inesc-tec-robotics/gazebo_projection_mapping)
-  * Add the package.xml for [gazebo](https://bitbucket.org/scpeters/unix-stuff/raw/master/package_xml/package_gazebo.xml) and [sdformat](https://bitbucket.org/scpeters/unix-stuff/raw/master/package_xml/package_sdformat.xml) given in [this page](http://gazebosim.org/tutorials?tut=install_from_source)
-  * Install the following dependencies:
-    * libavdevice-dev
-    * libbullet-dev
-    * libgraphviz-dev
-    * libignition-transport2-dev
-    * libopenal-dev
-    * libprotobuf-dev
-    * libqwt-dev
-    * protobuf-compiler
-    * ruby-ronn
-    * xsltproc
-  * Compile using the [catkin build command](http://catkin-tools.readthedocs.io/en/latest/verbs/catkin_build.html) or the command below:
-  ```
-  catkin build gazebo -csvi --cmake-args -DBUILD_CORE_ONLY=ON -DBUILD_SHARED_LIBS=ON -DUSE_DOUBLE_PRECISION=ON -DENABLE_TESTS_COMPILATION:BOOL=False -DCMAKE_BUILD_TYPE=Release -DENABLE_SSE4=true
-  ```
-* Compile my fork of [PCL](http://pointclouds.org/):
-  * Clone into the catkin workspace:
-    * [pcl_conversions](https://github.com/ros-perception/pcl_conversions)
-    * [pcl_msgs](https://github.com/ros-perception/pcl_msgs)
-    * [perception_pcl](https://github.com/ros-perception/perception_pcl)
-    * [PCL](https://github.com/carlosmccosta/pcl)
-    * Add the package.xml to PCL given in [this page](https://gist.github.com/carlosmccosta/1ec3e3bdce419441b0b17bf9bb707552)
+* Install [ROS](http://wiki.ros.org/melodic/Installation/Ubuntu)
+* [Upgrade gazebo to at least version 9.12](http://gazebosim.org/tutorials?cat=install&tut=install_ubuntu&ver=9.0) for getting [this pull request](https://bitbucket.org/osrf/gazebo/pull-requests/2058/added-camera-intrinsics-fx-fy-cx-cy-s)
+* Install the [catkin-tools build system](https://catkin-tools.readthedocs.io/en/latest/installing.html)
+* Create a [catkin tools workspace](http://catkin-tools.readthedocs.io/en/latest/quick_start.html) using [this script](https://github.com/carlosmccosta/ros_development_tools/blob/master/catkin/create_catkin_tools_ws.bash) for building all the libraries and executables
+* Comile my fork of gazebo_ros and gpm:
+  * [gazebo_ros_pkgs](https://github.com/carlosmccosta/gazebo_ros_pkgs)
+  * [gazebo_projection_mapping](https://github.com/inesc-tec-robotics/gazebo_projection_mapping)
   * Compile using the [catkin build command](http://catkin-tools.readthedocs.io/en/latest/verbs/catkin_build.html)
-* Compile the 3D perception system:
-  * Clone into the catkin workspace:
-    * [dynamic_robot_localization](https://github.com/carlosmccosta/dynamic_robot_localization)
-    * [pose_to_tf_publisher](https://github.com/carlosmccosta/pose_to_tf_publisher)
-  * Compile using the [catkin build command](http://catkin-tools.readthedocs.io/en/latest/verbs/catkin_build.html)
+* Install or compile the 3D perception system:
+  * [dynamic_robot_localization](https://github.com/carlosmccosta/dynamic_robot_localization#installation)
 * Compile the teaching system:
-  * Clone into the catkin workspace:
-    * [occupancy_detection](https://github.com/carlosmccosta/occupancy_detection)
-    * [assembly_projection_mapping_teaching](https://github.com/carlosmccosta/assembly_projection_mapping_teaching)
-  * Compile using the [catkin build command](http://catkin-tools.readthedocs.io/en/latest/verbs/catkin_build.html)
+  * [occupancy_detection](https://github.com/carlosmccosta/occupancy_detection)
+  * [assembly_projection_mapping_teaching](https://github.com/carlosmccosta/assembly_projection_mapping_teaching)
+
 
 ### Notes:
 
-Before compiling packages, check if you have installed all the required dependencies (use [rosdep](http://wiki.ros.org/rosdep) to speedup this task).
+Before compiling packages, check if you have installed all the required dependencies (use [rosdep](http://wiki.ros.org/rosdep) to speedup this task):
+```
+cd ~/catkin_ws
+rosdep check --from-paths src --ignore-src
+```
 
 
 
@@ -109,7 +83,7 @@ Sensors calibration:
 
 You will also need to calibrate the projector (using for example [this tool](http://mesh.brown.edu/calibration/)) and update the intrinsics parameters of the rendering camera in [worlds/assembly.world](worlds/assembly.world).
 
-Finally, you will need to compute the extrinsics (position and rotation in relation to the chessboard origin) of the sensors and projector (using for example [this package](https://github.com/bosch-ros-pkg/chessboards)) and update [launch/assembly_tfs.launch](launch/assembly_tfs.launch).
+Finally, you will need to compute the extrinsics (position and rotation in relation to the chessboard origin) of the sensors and projector (using the [charuco_detector](https://github.com/carlosmccosta/charuco_detector)) and update [launch/assembly_tfs.launch](launch/assembly_tfs.launch).
 
 
 
