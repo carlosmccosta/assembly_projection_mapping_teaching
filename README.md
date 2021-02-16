@@ -98,3 +98,29 @@ roslaunch assembly_projection_mapping_teaching assembly.launch
 You can start several modules of the system individually (such as sensors, rendering, perception). Look into the [launch](launch) folder and [tests.txt](docs/tests.txt).
 
 After the system is started, you can navigate between the textual / video instructions using the projected buttons and can also pause / play / seek the video. In the last step it is projected into the workspace the outline of the 3D model for visual inspection and assembly validation. Check the videos above for a demonstration of the system functionality.
+
+### Main input topics
+
+- **command** (std_msgs::String) | Topic for processing string commands (listed below) for changing the content being projected (# symbol corresponds to a number)
+  - "next_step"
+  - "previous_step"
+  - "first_step"
+  - "last_step"
+  - "step: #"
+  - "play_video"
+  - "pause_video"
+- **change_step** (std_msgs::Int32) | Topic for changing the projection content to the specified assembly step
+
+### Main output topics
+
+- **current_step** (std_msgs::Int32) | Latched topic informing the assembly step currently being projected
+- **status** (std_msgs::String) | Latched status topic informing the changes being performed to the projected content
+  - "next_step"
+  - "previous_step"
+  - "first_step"
+  - "last_step"
+  - "move_to_step"
+  - "step_number: #"
+  - "running"
+  - "paused"
+  - "seek_video: #"
